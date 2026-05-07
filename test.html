@@ -1,0 +1,905 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ELSHONA BAGS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="header-brand">
+        <div class="brand-logo">
+            <img src="images/logo.png" alt="ELSHONA BAGS Logo" class="logo-image">
+        </div>
+        <h1 class="brand-title">ELSHONA BAGS</h1>
+    </div>
+    
+    <nav class="header-nav">
+        <a href="#" class="nav-link active" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Home</a>
+        <a href="#" class="nav-link" onclick="showAllProducts(); window.scrollTo({top: document.querySelector('.category-intro').offsetTop - 80, behavior:'smooth'}); return false;">Products</a>
+        <a href="#" class="nav-link cart-link" onclick="toggleCartDrawer(); return false;">
+            <span>Cart</span>
+            <span id="header-cart-count" class="cart-badge">0</span>
+        </a>
+        <div class="account-dropdown">
+            <button class="nav-link" onclick="toggleAccountDropdown()">Account</button>
+            <div id="accountDropdown" class="dropdown-menu" style="display: none;">
+                <a href="#" class="dropdown-item" onclick="openModal(); return false;">Login</a>
+                <a href="#" class="dropdown-item" onclick="showAdminPanel(); return false;" style="display: none;" id="adminItem">Admin Panel</a>
+                <a href="#" class="dropdown-item" onclick="logout(); return false;" style="display: none;" id="logoutItem">Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="header-search">
+        <input type="text" id="search" class="search-input" placeholder="Search bags..." onkeyup="searchProducts()">
+    </div>
+</header>
+
+<div id="cartContainer"></div>
+
+<div id="notification" class="notification"></div>
+<div id="adminPanel" class="admin-panel" style="display:none;">
+    <div class="admin-actions">
+        <button type="button" class="secondary" onclick="hideAdminPanel()">Close Admin Panel</button>
+        <button type="button" onclick="renderAdminPanel()">Refresh Data</button>
+    </div>
+    <h2>Admin Dashboard</h2>
+    <div class="admin-grid">
+        <section>
+            <h3>Accounts</h3>
+            <table id="adminAccountsTable">
+                <thead>
+                    <tr><th>Username</th><th>Name</th><th>Email</th><th>Created</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+        <section>
+            <h3>User Carts</h3>
+            <table id="adminCartsTable">
+                <thead>
+                    <tr><th>User</th><th>Items</th><th>Total Qty</th><th>Total Value</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </section>
+    </div>
+</div>
+<section class="hero">
+    <div class="hero-grid">
+        <div class="hero-panel hero-panel-left">
+            <div class="hero-slider">
+                <div class="hero-slide active">
+                    <img src="images/bb0.jpg" alt="Model holding a bag">
+                </div>
+                <div class="hero-slide">
+                    <img src="images/bb0.1.jpg" alt="Stylish handbag display">
+                </div>
+            </div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">TIMELESS STYLE. EVERYDAY FUNCTION.</div>
+            <h2 class="hero-title">Elevate Your Style</h2>
+            <p class="hero-text">Discover timeless and functional bags for every occasion. Curated pieces crafted for everyday elegance and travel-ready convenience.</p>
+            <div class="hero-actions">
+                <button class="primary" onclick="showAllProducts(); window.scrollTo({top: document.querySelector('.category-intro').offsetTop - 80, behavior:'smooth'})">Shop Now</button>
+                <button class="secondary" onclick="scrollToProducts()">View Collection</button>
+            </div>
+        </div>
+        <div class="hero-panel hero-panel-right">
+            <div class="hero-slider hero-slider-right">
+                <div class="hero-slide active">
+                    <img src="images/bb0.jpg" alt="Elegant belt bag showcase">
+                </div>
+                <div class="hero-slide">
+                    <img src="images/bb0.1.jpg" alt="Chic leather bag arrangement">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="category-intro">
+    <h2>Shop By Category</h2>
+    <p>Browse curated categories, discover best sellers, and choose the perfect bag for work, travel, or everyday style.</p>
+</section>
+<div class="category-icons">
+    <button class="category-icon active" onclick="filterByCategory('all', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <span>All Bags</span>
+    </button>
+    <button class="category-icon" onclick="filterByCategory('Hand Bag', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 7h14v12H5V7Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 7V4h8v3" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Handbags</span>
+    </button>
+    <button class="category-icon" onclick="filterByCategory('Travel Backpack', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7 4h10v4H7V4Z" stroke="currentColor" stroke-width="1.8"/><path d="M7 8v10h10V8" stroke="currentColor" stroke-width="1.8"/><path d="M10 14h4" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Backpacks</span>
+    </button>
+    <button class="category-icon" onclick="filterByCategory('Tote Bag', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 7h12v12H6V7Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 7V5a4 4 0 0 1 8 0v2" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Tote Bags</span>
+    </button>
+    <button class="category-icon" onclick="filterByCategory('Belt Bag', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 9h12v8H6V9Z" stroke="currentColor" stroke-width="1.8"/><path d="M4 11h16" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Belt Bags</span>
+    </button>
+    <button class="category-icon" onclick="filterByCategory('Clutch Bag', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 8h14v8H5V8Z" stroke="currentColor" stroke-width="1.8"/><path d="M8 8V6h8v2" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Clutches</span>
+    </button>
+    <button class="category-icon" onclick="filterByCategory('Sports Bag', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 8h14l-2 10H7L5 8Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 8V5h6v3" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Sports Bags</span>
+    </button>
+    <button class="category-icon" onclick="filterByCategory('Luggage', this)">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M7 10h10v8H7v-8Z" stroke="currentColor" stroke-width="1.8"/><path d="M9 10V7h6v3" stroke="currentColor" stroke-width="1.8"/></svg>
+        <span>Luggage</span>
+    </button>
+</div>
+<div class="container category-grid" id="product-list"></div>
+
+
+
+<script>
+
+// PRODUCTS
+const products = [
+    {name: "Hand Bag", variants: [
+        {name:"Classic Pink", image:"mini1.jpg", price:1500},
+        {name:"Elegant Blue", image:"mini2.jpg", price:2350},
+        {name:"Luxury Cream", image:"mini3.jpg", price:1760},
+        {name:"Cherry Silver", image:"mini4.jpg", price:2450},
+        {name:"Luxury Black", image:"mini5.jpg", price:3000},
+        {name:"Beige Sling", image:"mini6.jpg", price:2900},
+        {name:"Maroon Cherry", image:"mini7.jpg", price:2357},
+        {name:"Brown Envelope", image:"mini8.jpg", price:1600},
+        {name:"Classy White", image:"mini9.jpg", price:3467},
+        {name:"Clhoe LV", image:"mini10.jpg", price:2365},
+        {name:"Floral LV", image:"mini11.jpg", price:3560},
+        {name:"Matcha Cream", image:"mini12.jpg", price:4560},
+        {name:"Mulberry", image:"mini13.jpg", price:1550},
+        {name:"Purple Ness", image:"mini14.jpg", price:1370},
+        {name:"Classy Blue", image:"mini15.jpg", price:1300},
+        {name:"Elara Luxe", image:"mini16.jpg", price:1450},
+        {name:"Celestique", image:"mini17.jpg", price:1300},
+        {name:"VantaBag", image:"mini18.jpg", price:1450},
+        {name:"Blush Berry", image:"mini19.jpg", price:1300},
+        {name:"Maroon Elan", image:"mini20.jpg", price:1450}
+    ]},
+    {name: "Travel Backpack", variants: [
+        {name:"UrbanPack", image:"bp1.jpg", price:10200},
+        {name:"SkyHaul Backpack", image:"bp2.jpg", price:11250},
+        {name:"Drift Backpack", image:"bp3.jpg", price:11300},
+        {name:"MetroSack Backpack", image:"bp4.jpg", price:13050},
+        {name:"CoreCarry Backpack", image:"bp5.jpg", price:12300},
+        {name:"Swift Backpack", image:"bp6.jpg", price:11000},
+        {name:"PeakPack Backpack", image:"bp7.jpg", price:26000},
+        {name:"GoStride Backpack", image:"bp8.jpg", price:19500},
+        {name:"PathFinder Backpack", image:"bp10.jpg", price:13000},
+        {name:"Elevate Backpack", image:"bp11.jpg", price:16000},
+        {name:"Cargonest Backpack", image:"bp12.jpg", price:10000},
+        {name:"WonderWise Backpack", image:"bp13.jpg", price:19000},
+        {name:"TrailBlaze Backpack", image:"bp14.jpg", price:21000},
+        {name:"Urbanite Backpack", image:"bp15.jpg", price:17000},
+        {name:"Voyageur Backpack", image:"bp16.jpg", price:22000},
+        {name:"Summit Backpack", image:"bp17.jpg", price:24000},
+        {name:"Globetrotter Backpack", image:"bp18.jpg", price:20000},
+        {name:"Nomad Backpack", image:"bp19.jpg", price:15000},
+        {name:"Expedition Backpack", image:"bp20.jpg", price:30000}
+    ]},
+    {name: "Tote Bag", variants: [
+        {name:"ToteBall", image:"tt1.jpg", price:300},
+        {name:"Totenado", image:"tt2.jpg", price:550},
+        {name:"ToteFul", image:"tt3.jpg", price:700},
+        {name:"Totequake", image:"tt4.jpg", price:790},
+        {name:"Totebulous", image:"tt5.jpg", price:430},
+        {name:"Totemess", image:"tt6.jpg", price:660},
+        {name:"Totemania", image:"tt7.jpg", price:850},
+        {name:"Totastic", image:"tt8.jpg", price:950},
+        {name:"Dragify", image:"tt9.jpg", price:850},
+        {name:"Siksik", image:"tt10.jpg", price:950},
+        {name:"Packzilla", image:"tt11.jpg", price:850},
+        {name:"Totelle", image:"tt12.jpg", price:950},
+        {name:"Totetara", image:"tt13.jpg", price:850},
+        {name:"Totine", image:"tt14.jpg", price:950},
+        {name:"Toriele", image:"tt15.jpg", price:850},
+        {name:"Totemess", image:"tt16.jpg", price:950},
+        {name:"Toterrific", image:"tt17.jpg", price:850},
+        {name:"Totemon", image:"tt18.jpg", price:950},
+        {name:"Totebagel", image:"tt19.jpg", price:850},
+        {name:"Totester", image:"tt20.jpg", price:950}
+    ]}
+    ,
+    {name: "Belt Bag", variants: [
+        {name:"Classic Belt Bag", image:"bb1.jpg", price:1200},
+        {name:"Urban Belt Bag", image:"bb2.jpg", price:950},
+        {name:"Sporty Belt Bag", image:"bb3.jpg", price:800},
+        {name:"Leather Belt Bag", image:"bb4.jpg", price:2500},
+        {name:"Mini Belt Pack", image:"bb5.jpg", price:700},
+        {name:"Elvara Belt Bag", image:"bb6.jpg", price:1000},
+        {name:"Arvella Belt Bag", image:"bb7.jpg", price:1150},
+        {name:"Sway Pack Belt Bag", image:"bb8.jpg", price:1650},
+        {name:"Drift Pouch Belt Bag", image:"bb9.jpg", price:650},
+        {name:"Grind Pack Belt Bag", image:"bb10.jpg", price:900},
+        {name:"Venture Belt Bag", image:"bb11.jpg", price:1300},
+        {name:"Rover Belt Bag", image:"bb12.jpg", price:1100},
+        {name:"Swift Belt Bag", image:"bb13.jpg", price:1400},
+        {name:"Core Belt Bag", image:"bb14.jpg", price:1200},
+        {name:"Metro Belt Bag", image:"bb15.jpg", price:1600},
+        {name:"Urbanite Belt Bag", image:"bb16.jpg", price:1700},
+        {name:"Voyageur Belt Bag", image:"bb17.jpg", price:1800},
+        {name:"Summit Belt Bag", image:"bb18.jpg", price:1900},
+        {name:"Globetrotter Belt Bag", image:"bb19.jpg", price:2000},
+        {name:"Nomad Belt Bag", image:"bb20.jpg", price:2100}
+    ]},
+    {name: "Clutch Bag", variants: [
+        {name:"Silk Clutch", image:"c1.jpg", price:900},
+        {name:"Beaded Clutch", image:"c2.jpg", price:1100},
+        {name:"Leather Clutch", image:"c3.jpg", price:1300},
+        {name:"Envelope Clutch", image:"c4.jpg", price:750},
+        {name:"Chain Clutch", image:"c5.jpg", price:1400},
+        {name:"Box Clutch", image:"c6.jpg", price:1600},
+        {name:"Seraphine Clutch", image:"c7.jpg", price:1600},
+        {name:"Alure Clutch", image:"c8.jpg", price:1600},
+        {name:"Roselle Clutch", image:"c9.jpg", price:1600},
+        {name:"Luxe Clutch", image:"c10.jpg", price:1600},
+        {name:"Gala Clutch", image:"c11.jpg", price:1600},
+        {name:"Evelyn Clutch", image:"c12.jpg", price:1600},
+        {name:"Opulence Clutch", image:"c13.jpg", price:1600},
+        {name:"Duchess Clutch", image:"c14.jpg", price:1600},
+        {name:"Sapphire Clutch", image:"c15.jpg", price:1600},
+        {name:"Emerald Clutch", image:"c16.jpg", price:1600},
+        {name:"Ruby Clutch", image:"c17.jpg", price:1600},
+        {name:"Diamond Clutch", image:"c18.jpg", price:1600},
+        {name:"Pearl Clutch", image:"c19.jpg", price:1600},
+        {name:"Onyx Clutch", image:"c20.jpg", price:1600}
+    ]},
+    {name: "Sports Bag", variants: [
+        {name:"Gym Pro", image:"sb1.jpg", price:2200},
+        {name:"Athlete Duffle", image:"sb2.jpg", price:2600},
+        {name:"RunPack", image:"sb3.jpg", price:1200},
+        {name:"Team Gear Bag", image:"sb4.jpg", price:3000},
+        {name:"Hydra Sports Bag", image:"sb5.jpg", price:2000},
+        {name:"Training Duffel", image:"sb6.jpg", price:1800},
+        {name:"Sporty Sling", image:"sb7.jpg", price:1500},
+        {name:"Endurance Bag", image:"sb8.jpg", price:2400},
+        {name:"Victory Duffle", image:"sb9.jpg", price:2800},
+        {name:"PowerPack", image:"sb10.jpg", price:2600},
+        {name:"Agility Bag", image:"sb11.jpg", price:2300},
+        {name:"Champion Duffel", image:"sb12.jpg", price:3200},
+        {name:"Swift Sports Bag", image:"sb13.jpg", price:2100},
+        {name:"Core Sports Bag", image:"sb14.jpg", price:1900},
+        {name:"Metro Sports Bag", image:"sb15.jpg", price:2500},
+        {name:"Urbanite Sports Bag", image:"sb16.jpg", price:2700},
+        {name:"Voyageur Sports Bag", image:"sb17.jpg", price:2900},
+        {name:"Summit Sports Bag", image:"sb18.jpg", price:3100},
+        {name:"Globetrotter Sports Bag", image:"sb19.jpg", price:3300},
+        {name:"Nomad Sports Bag", image:"sb20.jpg", price:3500}
+    ]},
+    {name: "Luggage", variants: [
+        {name:"Carry-On Classic", image:"l1.jpg", price:8200},
+        {name:"Traveler Spinner", image:"l2.jpg", price:12500},
+        {name:"Weekend Roller", image:"l3.jpg", price:5400},
+        {name:"Expedition Luggage", image:"l4.jpg", price:22000},
+        {name:"Lite Cabin Luggage", image:"l5.jpg", price:7600},
+        {name:"Grand Trunk", image:"l6.jpg", price:18000},
+        {name:"Voyage Spinner", image:"l7.jpg", price:15000},
+        {name:"Urban Roller", image:"l8.jpg", price:9000},
+        {name:"Globetrotter Luggage", image:"l9.jpg", price:20000},
+        {name:"Summit Luggage", image:"l10.jpg", price:17000},
+        {name:"Nomad Luggage", image:"l11.jpg", price:13000},
+        {name:"Elite Spinner", image:"l12.jpg", price:21000},
+        {name:"Voyageur Luggage", image:"l13.jpg", price:19000},
+        {name:"Expedition Roller", image:"l14.jpg", price:23000},
+        {name:"Urbanite Luggage", image:"l15.jpg", price:16000},
+        {name:"Summit Roller", image:"l16.jpg", price:24000},
+        {name:"Globetrotter Roller", image:"l17.jpg", price:25000},
+        {name:"Nomad Roller", image:"l18.jpg", price:14000},
+        {name:"Elite Luggage", image:"l19.jpg", price:26000},
+        {name:"Voyageur Roller", image:"l20.jpg", price:18000}
+    ]}
+];
+
+products.forEach(category => {
+    category.variants.sort((a,b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+});
+products.sort((a,b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+
+let cart = [];
+let orders = [];
+let isLoggedIn = false;
+
+// Make cart globally accessible
+window.cart = cart;
+
+// Load cart and orders after database is initialized
+document.addEventListener('DOMContentLoaded', async function() {
+    if (typeof ensureDatabaseLoaded === 'function') {
+        await ensureDatabaseLoaded();
+    }
+    // Load user cart if logged in and cart is not already loaded by auth.js
+    if (typeof currentUser !== 'undefined' && currentUser && (!window.cart || window.cart.length === 0)) {
+        window.cart = getCart(currentUser);
+    }
+    orders = getAllOrders();
+    updateCart(); // Update UI
+});
+
+// DISPLAY PRODUCTS
+function getProductDescription(name, category){
+    const type = category ? category.toLowerCase() : 'product';
+    const adjectives = [
+        'a stylish',
+        'a versatile',
+        'a premium',
+        'a bold',
+        'a chic',
+        'a modern',
+        'a polished',
+        'an elegant'
+    ];
+    const features = [
+        'with thoughtful interior pockets',
+        'with handcrafted finishes',
+        'with durable materials and sleek lines',
+        'with vibrant accent details',
+        'with soft-touch textures',
+        'with functional compartments',
+        'with refined hardware',
+        'with standout design elements'
+    ];
+    const uses = [
+        'for everyday carry',
+        'for city outings',
+        'for travel-ready style',
+        'for polished work looks',
+        'for weekend adventures',
+        'for effortless elegance',
+        'for hands-free convenience',
+        'for statement-making outfits'
+    ];
+
+    const hash = Array.from(name).reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+    const adjective = adjectives[hash % adjectives.length];
+    const feature = features[Math.floor(hash / 3) % features.length];
+    const use = uses[Math.floor(hash / 7) % uses.length];
+
+    return `${name} is ${adjective} ${type} ${use}, ${feature}.`;
+}
+
+function renderProductCard(v, category = ''){
+    const rating = (Math.random() * 2 + 3).toFixed(1); // Random rating between 3.0 and 5.0
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5 ? 'â˜…' : '';
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    const stars = 'â˜…'.repeat(fullStars) + halfStar + 'â˜†'.repeat(emptyStars);
+    const description = v.description || getProductDescription(v.name, category);
+
+    return `
+        <div class="product-card" onclick="openProductDetail('${v.name}','${category}',${v.price},'${v.image}','${description.replace(/'/g, "\\'")}')">
+            <img src="images/${v.image}" alt="${v.name}">
+            <h3>${v.name}</h3>
+            ${category ? `<p class="meta-text">${category}</p>` : ''}
+            <p class="price">â‚±${v.price}</p>
+            <div class="rating">
+                <span class="rating-stars">${stars}</span>
+                <span class="rating-score">${rating}</span>
+            </div>
+            <div class="product-buttons">
+                <button class="product-btn" onclick="event.stopPropagation(); addToCart('${v.name}', ${v.price}, '${v.image}')">ðŸ› Add to Cart</button>
+            </div>
+        </div>`;
+}
+
+function displayProducts(list, categoryFilter = 'all'){
+    const container=document.getElementById("product-list");
+    container.innerHTML="";
+    list.forEach((group)=>{
+        if(categoryFilter === 'all' || group.name === categoryFilter){
+            group.variants.forEach((v)=>{
+                container.innerHTML += renderProductCard(v, group.name);
+            });
+        }
+    });
+}
+
+// SHOW VARIANTS
+function showVariants(index){
+    const container=document.getElementById("product-list");
+    container.innerHTML="";
+    products[index].variants.forEach((v)=>{
+        container.innerHTML += renderProductCard(v, products[index].name);
+    });
+}
+
+// SHOW ALL VARIANTS (used by the 'Bags' nav)
+function showAllProducts(){
+    document.querySelectorAll('.category-icon').forEach((btn, idx) => btn.classList.toggle('active', idx === 0));
+    displayProducts(products);
+}
+
+// Wire up the Bags nav link to show all products
+document.addEventListener('DOMContentLoaded', ()=>{
+    // Auto-open login/signup on mobile if not logged in
+    if(!isLoggedIn && window.innerWidth <= 768){
+        openModal();
+    }
+});
+
+// SEARCH
+function searchProducts(){
+    const value = document.getElementById("search").value.trim().toLowerCase();
+    const container = document.getElementById("product-list");
+    // empty search -> show categories
+    if(!value){
+        // Reset filter to all
+        const categoryIcons = document.querySelectorAll('.category-icon');
+        categoryIcons.forEach(btn => btn.classList.remove('active'));
+        if(categoryIcons[0]) categoryIcons[0].classList.add('active');
+        displayProducts(products);
+        return;
+    }
+
+    // find matching variants across all categories
+    const matches = [];
+    products.forEach(cat => {
+        (cat.variants || []).forEach(v => {
+            if(v.name.toLowerCase().includes(value)){
+                matches.push(Object.assign({}, v, { category: cat.name }));
+            }
+        });
+    });
+
+    // render matches as product cards
+    container.innerHTML = "";
+    if(matches.length === 0){
+        container.innerHTML = '<p>No products found.</p>';
+        return;
+    }
+
+    matches.forEach(v=>{
+        container.innerHTML += renderProductCard(v, v.category);
+    });
+}
+
+function filterByCategory(category, button){
+    document.querySelectorAll('.category-icon').forEach(btn => btn.classList.toggle('active', btn === button));
+    if(category === 'all') {
+        displayProducts(products);
+    } else {
+        displayProducts(products, category);
+    }
+}
+
+function scrollToProducts(){
+    const target = document.querySelector('.category-intro');
+    if(target){
+        window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+    }
+}
+
+let heroSlideIndex = 0;
+let heroSlideDirection = 1;
+let heroSlideIntervalId = null;
+const heroSlideCount = 2;
+
+function updateHeroSlider(){
+    const leftSlides = document.querySelectorAll('.hero-panel-left .hero-slide');
+    const rightSlides = document.querySelectorAll('.hero-panel-right .hero-slide');
+    const dots = document.querySelectorAll('.hero-dot');
+
+    leftSlides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === heroSlideIndex);
+    });
+    rightSlides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === heroSlideIndex);
+    });
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === heroSlideIndex);
+    });
+}
+
+function clearHeroAutoSlide(){
+    if(heroSlideIntervalId !== null){
+        clearInterval(heroSlideIntervalId);
+        heroSlideIntervalId = null;
+    }
+}
+
+function startHeroAutoSlide(){
+    clearHeroAutoSlide();
+    heroSlideIntervalId = setInterval(() => {
+        if(heroSlideIndex === heroSlideCount - 1){
+            heroSlideDirection = -1;
+        } else if(heroSlideIndex === 0){
+            heroSlideDirection = 1;
+        }
+        heroSlideIndex += heroSlideDirection;
+        updateHeroSlider();
+    }, 4000);
+}
+
+function restartHeroAutoSlide(){
+    startHeroAutoSlide();
+}
+
+function prevHeroSlide(){
+    heroSlideIndex = (heroSlideIndex + heroSlideCount - 1) % heroSlideCount;
+    heroSlideDirection = -1;
+    updateHeroSlider();
+    restartHeroAutoSlide();
+}
+
+function nextHeroSlide(){
+    heroSlideIndex = (heroSlideIndex + 1) % heroSlideCount;
+    heroSlideDirection = 1;
+    updateHeroSlider();
+    restartHeroAutoSlide();
+}
+
+function setHeroSlide(index){
+    heroSlideIndex = index;
+    heroSlideDirection = index === 0 ? 1 : -1;
+    updateHeroSlider();
+    restartHeroAutoSlide();
+}
+
+function initHeroSlider(){
+    const leftSlides = document.querySelectorAll('.hero-panel-left .hero-slide');
+    const rightSlides = document.querySelectorAll('.hero-panel-right .hero-slide');
+    if(leftSlides.length !== heroSlideCount || rightSlides.length !== heroSlideCount) return;
+
+    updateHeroSlider();
+    startHeroAutoSlide();
+}
+
+function openProductDetail(name, category, price, image, description){
+    const modal = document.getElementById('productDetailModal');
+    document.getElementById('detailImageMain').src = `images/${image}`;
+    document.getElementById('detailTitle').innerText = name;
+    document.getElementById('detailCategory').innerText = category;
+    document.getElementById('detailPrice').innerText = `â‚±${price}`;
+    document.getElementById('detailDescription').innerText = description || getProductDescription(name, category);
+    document.getElementById('detailRating').innerText = `${(Math.random() * 2 + 3).toFixed(1)} â˜…`;
+    document.getElementById('detailAddToCart').setAttribute('data-name', name);
+    document.getElementById('detailAddToCart').setAttribute('data-price', price);
+    document.getElementById('detailAddToCart').setAttribute('data-image', image);
+
+    const thumbContainer = document.getElementById('detailThumbs');
+    thumbContainer.innerHTML = '';
+    const thumbImages = [image, image, image, image];
+    thumbImages.forEach((src, index)=>{
+        const thumb = document.createElement('button');
+        thumb.type = 'button';
+        thumb.className = 'product-modal-thumb' + (index === 0 ? ' active' : '');
+        thumb.innerHTML = `<img src="images/${src}" alt="${name} thumbnail">`;
+        thumb.addEventListener('click', () => {
+            document.querySelectorAll('.product-modal-thumb').forEach(el => el.classList.remove('active'));
+            thumb.classList.add('active');
+            document.getElementById('detailImageMain').src = `images/${src}`;
+        });
+        thumbContainer.appendChild(thumb);
+    });
+
+    const colors = ['#F8B6C1','#B4D6F3','#F3E0C4','#000000'];
+    const colorContainer = document.getElementById('detailColors');
+    colorContainer.innerHTML = '';
+    colors.forEach((color, index)=>{
+        const swatch = document.createElement('button');
+        swatch.type = 'button';
+        swatch.className = 'color-swatch' + (index === 0 ? ' active' : '');
+        swatch.style.backgroundColor = color;
+        swatch.addEventListener('click', () => {
+            document.querySelectorAll('.color-swatch').forEach(el => el.classList.remove('active'));
+            swatch.classList.add('active');
+        });
+        colorContainer.appendChild(swatch);
+    });
+
+    modal.classList.add('open');
+}
+
+function closeProductModal(){
+    const modal = document.getElementById('productDetailModal');
+    modal.classList.remove('open');
+}
+
+function addToCartFromDetail(){
+    const button = document.getElementById('detailAddToCart');
+    const name = button.getAttribute('data-name');
+    const price = Number(button.getAttribute('data-price'));
+    const image = button.getAttribute('data-image');
+    addToCart(name, price, image);
+}
+
+// CLOSE MODALS WHEN CLICKING OUTSIDE
+window.onclick=function(e){
+    const authModal = document.getElementById('authModal');
+    if(authModal && e.target===authModal) {
+        authModal.classList.remove("open");
+        authModal.style.display="none";
+    }
+    if(e.target===document.getElementById("checkoutModal")) closeCheckout();
+}
+
+// INIT
+displayProducts(products);
+initHeroSlider();
+</script>
+
+<script src="js/database.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/cart.js"></script>
+
+<!-- PRODUCT DETAIL MODAL -->
+<div id="productDetailModal" class="product-detail-modal" onclick="if(event.target === this) closeProductModal()">
+    <div class="product-modal-content">
+        <button type="button" class="product-modal-close" onclick="closeProductModal()">Ã—</button>
+        <div class="product-modal-left">
+            <div class="product-modal-main">
+                <img id="detailImageMain" src="images/mini1.jpg" alt="Product detail image">
+            </div>
+            <div id="detailThumbs" class="product-modal-thumbs"></div>
+        </div>
+        <div class="product-modal-right">
+            <p class="stock-badge">In Stock</p>
+            <h2 id="detailTitle">Product Name</h2>
+            <p class="meta-text" id="detailCategory">Mini Sling Bag</p>
+            <p class="price" id="detailPrice">â‚±1500</p>
+            <div class="rating" id="detailRating">4.7 â˜…</div>
+            <p class="description" id="detailDescription">A charming pastel pink sling bag with ribbon and pearl detail. Perfect for everyday elegance.</p>
+            <div>
+                <p style="margin:0 0 10px; font-weight:700;">Color</p>
+                <div id="detailColors" class="color-options"></div>
+            </div>
+            <button id="detailAddToCart" type="button" class="product-btn" onclick="addToCartFromDetail()">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div id="authModal" class="auth-modal" style="display: none;">
+    <div class="auth-card">
+        <button class="close-btn" onclick="closeLoginModal()">âœ•</button>
+        <div class="modal-logo">EB</div>
+        <div class="auth-brand">ELSHONA BAGS</div>
+        <div class="divider"></div>
+        <h2 id="authTitle" class="auth-title">Welcome Back</h2>
+        <p id="authSubtitle" class="subtitle">Sign in to your account</p>
+
+        <form id="loginForm" class="auth-form" onsubmit="login(); return false;">
+            <div class="form-group">
+                <label for="loginUser">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="loginUser" class="form-input" placeholder="Enter your username or email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loginPass">Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="loginPass" class="form-input" placeholder="Enter your password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('loginPass')"></span>
+                </div>
+            </div>
+            <div class="login-actions">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" onclick="showResetPassword(); return false;">Forgot password?</a>
+            </div>
+            <button type="submit" class="modal-btn sign-in">Sign In</button>
+        </form>
+
+        <form id="resetForm" class="auth-form hidden" onsubmit="resetPassword(); return false;">
+            <div class="form-group">
+                <label for="resetUser">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="resetUser" class="form-input" placeholder="Enter your username" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetEmail">Email</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetOtp">OTP Code</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="resetOtp" class="form-input" placeholder="Enter OTP code" required>
+                    <button type="button" class="otp-btn" onclick="sendResetOtp()">Send OTP</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetPass">New Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="resetPass" class="form-input" placeholder="Enter new password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPass')"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetPassConfirm">Confirm Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="resetPassConfirm" class="form-input" placeholder="Confirm new password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPassConfirm')"></span>
+                </div>
+            </div>
+            <div class="login-actions">
+                <a href="#" onclick="showLogin(); return false;">Back to Sign In</a>
+            </div>
+            <button type="submit" class="modal-btn sign-in">Reset Password</button>
+        </form>
+
+        <form id="signupForm" class="auth-form hidden" onsubmit="signup(); return false;">
+            <div class="form-group">
+                <label for="signupName">Full Name</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="signupName" class="form-input" placeholder="Enter your full name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupUser">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="signupUser" class="form-input" placeholder="Choose a username" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupPass">Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="signupPass" class="form-input" placeholder="Create a password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('signupPass')"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupPassConfirm">Confirm Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="signupPassConfirm" class="form-input" placeholder="Confirm password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('signupPassConfirm')"></span>
+                </div>
+            </div>
+            <label class="checkbox-label" style="font-size:12px; margin-bottom:12px;">
+                <input type="checkbox" id="agreeSignup" required>
+                <span>I agree to the <a href="#" style="color:#6b4bb0; text-decoration:none;">Terms & Conditions</a> and <a href="#" style="color:#6b4bb0; text-decoration:none;">Privacy Policy</a></span>
+            </label>
+            <button type="submit" class="modal-btn sign-in">Create Account</button>
+        </form>
+
+        <div class="divider-row"><span>or</span></div>
+        <p class="signup-link" id="authSwitch">Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign Up</a></p>
+    </div>
+</div>
+
+<!-- SITE FOOTER (outer part) -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <!-- BRAND SECTION -->
+        <div class="footer-brand">
+            <div class="footer-brand-logo">EB</div>
+            <div class="footer-brand-name">ELSHONA BAGS</div>
+            <div class="footer-brand-tagline">Timeless bags, thoughtfully designed for every moment.</div>
+            <div class="footer-social">
+                <a href="#" title="Instagram">ðŸ“·</a>
+                <a href="#" title="Facebook">f</a>
+                <a href="#" title="Pinterest">P</a>
+                <a href="#" title="Email">âœ‰</a>
+            </div>
+        </div>
+
+        <!-- SHOP COLUMN -->
+        <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+                <li><a href="#">All Bags</a></li>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Best Sellers</a></li>
+                <li><a href="#">Shoulder Bags</a></li>
+                <li><a href="#">Tote Bags</a></li>
+                <li><a href="#">Sling Bags</a></li>
+                <li><a href="#">Accessories</a></li>
+            </ul>
+        </div>
+
+        <!-- CUSTOMER CARE COLUMN -->
+        <div class="footer-col">
+            <h4>Customer Care</h4>
+            <ul>
+                <li><a href="#">Shipping & Delivery</a></li>
+                <li><a href="#">Returns & Exchanges</a></li>
+                <li><a href="#">Track Your Order</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Care Guide</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+
+     <!-- ABOUT COLUMN -->
+        <div class="footer-col">
+            <h4>About</h4>
+            <ul>
+                <li><a href="#">Our Story</a></li>
+                <li><a href="#">Sustainability</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Store Locator</a></li>
+            </ul>
+        </div>
+
+        <!-- STAY IN TOUCH COLUMN -->
+        <div class="footer-subscribe">
+            <h4>Stay In Touch</h4>
+            <p style="margin:0; font-size:12px; color:#7d6a45; line-height:1.4;">Subscribe to get special offers, early access to new arrivals, and more.</p>
+            <div class="footer-subscribe-input">
+                <input type="email" placeholder="Enter your email">
+                <button>â†’</button>
+            </div>
+            <label class="footer-subscribe-check">
+                <input type="checkbox">
+                <span>I agree to receive emails from Elshona Bags.</span>
+            </label>
+        </div>
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+        <div class="footer-links">
+            Â© 2024 Elshona Bags. All rights reserved.
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+        </div>
+        <div class="footer-payments">
+            <span style="font-size:10px; color:#7d6a45; margin-right:6px;">VISA</span>
+            <span style="font-size:10px; color:#7d6a45;">â—â—</span>
+            <span style="font-size:10px; color:#7d6a45;">GCash</span>
+            <span style="font-size:10px; color:#7d6a45;">PayPal</span>
+        </div>
+    </div>
+</footer>
+
+<script>
+// footer interactions
+const yearEl = document.getElementById('year');
+if (yearEl) {
+    yearEl.innerText = new Date().getFullYear();
+}
+const footerBags = document.getElementById('footer-bags');
+if (footerBags) {
+    footerBags.addEventListener('click', (e) => {
+        e.preventDefault();
+        showAllProducts();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+}
+const footerHome = document.getElementById('footer-home');
+if (footerHome) {
+    footerHome.addEventListener('click', (e) => {
+        e.preventDefault();
+        displayProducts(products);
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+}
+</script>
+
+</body>
+</html>

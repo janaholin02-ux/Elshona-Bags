@@ -1,0 +1,32 @@
+<!-- CHECKOUT MODAL -->
+<div id="checkoutModal" class="modal">
+    <div class="modal-content" style="width:420px; max-width:95%; background:rgb(255, 240, 165); padding:40px 20px; align-items:flex-start; overflow:auto;">
+        <h3 style="text-align:center; width:100%; margin-bottom:20px;">Checkout</h3>
+        <div id="checkout-items" style="max-height:300px; overflow:auto; text-align:left; margin-bottom:12px; width:100%;"></div>
+        <p style="width:100%;">Items: <span id="checkout-count">0</span></p>
+        <p style="width:100%;">Total: ₱<span id="checkout-total">0</span></p>
+
+        <label for="payment-method" style="display:block; width:100%; margin:12px 0 6px;">Payment method:</label>
+        <select id="payment-method" style="width:100%; padding:10px; margin-bottom:8px; border-radius:8px; border:1px solid #ddd;">
+            <option value="gcash">Gcash</option>
+            <option value="cod">Cash on Delivery</option>
+        </select>
+
+        <button onclick="completeCheckout()" style="margin-bottom:8px; width:100%; padding:10px; background:rgb(135,109,53); color:#fff; border:none; border-radius:8px; cursor:pointer;">Pay / Complete Order</button>
+        <button onclick="closeCheckout()" style="background:#999; width:100%; padding:10px; color:#fff; border:none; border-radius:8px; cursor:pointer;">Close</button>
+    </div>
+</div>
+
+<!-- cart overlay and drawer -->
+<div id="cartOverlay" class="cart-overlay" onclick="toggleCartDrawer()"></div>
+<aside id="cartDrawer" class="cart-drawer" aria-hidden="true">
+    <div class="cart-drawer-header">
+        <h3>Your Cart <span id="cart-count-header">(0)</span></h3>
+        <button class="cart-drawer-close" onclick="toggleCartDrawer()">×</button>
+    </div>
+
+    <div class="cart-drawer-content">
+        <div id="cart-items"></div>
+    </div>
+    <div class="cart-drawer-footer" id="cart-footer"></div>
+</aside>

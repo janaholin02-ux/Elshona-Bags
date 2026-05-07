@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login - ELSHONA BAGS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-page">
+<header>
+    <div class="header-left">
+        <div class="brand-logo">
+            <img src="images/logo.png" alt="ELSHONA BAGS Logo" class="logo-image">
+        </div>
+        <h1 class="title">
+            <span class="brand-name">ELSHONA</span> <span class="brand-tag">BAGS</span>
+        </h1>
+    </div>
+    <div class="header-right">
+        <nav>
+            <a class="orders" href="index.html">Home</a>
+            <a class="orders" href="index.html">Shop</a>
+        </nav>
+    </div>
+</header>
+
+<div id="notification" class="notification"></div>
+
+<div id="authModal" class="auth-modal open" style="display:flex;">
+    <div class="auth-card">
+        <button class="close-btn" onclick="window.location.href='index.html'">✕</button>
+        <div class="modal-logo">EB</div>
+        <div class="auth-brand">ELSHONA BAGS</div>
+        <div class="divider"></div>
+        <h2 id="authTitle" class="auth-title">Welcome Back</h2>
+        <p id="authSubtitle" class="subtitle">Sign in to your account</p>
+
+        <form id="loginForm" class="auth-form" onsubmit="login(); return false;">
+            <div class="form-group">
+                <label for="loginUser">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="loginUser" class="form-input" placeholder="Enter your username or email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="loginPass">Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="loginPass" class="form-input" placeholder="Enter your password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('loginPass')"></span>
+                </div>
+            </div>
+            <div class="login-actions">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="rememberMe">
+                    <span>Remember me</span>
+                </label>
+                <a href="#" onclick="showResetPassword(); return false;">Forgot password?</a>
+            </div>
+            <button type="submit" class="modal-btn sign-in">Sign In</button>
+        </form>
+
+        <form id="resetForm" class="auth-form hidden" onsubmit="resetPassword(); return false;">
+            <div class="form-group">
+                <label for="resetUser">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="resetUser" class="form-input" placeholder="Enter your username" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetEmail">Email</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetOtp">OTP Code</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="resetOtp" class="form-input" placeholder="Enter OTP code" required>
+                    <button type="button" class="otp-btn" onclick="sendResetOtp()">Send OTP</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetPass">New Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="resetPass" class="form-input" placeholder="Enter new password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPass')"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="resetPassConfirm">Confirm Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="resetPassConfirm" class="form-input" placeholder="Confirm new password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPassConfirm')"></span>
+                </div>
+            </div>
+            <div class="login-actions">
+                <a href="#" onclick="showLogin(); return false;">Back to Sign In</a>
+            </div>
+            <button type="submit" class="modal-btn sign-in">Reset Password</button>
+        </form>
+
+        <form id="signupForm" class="auth-form hidden" onsubmit="signup(); return false;">
+            <div class="form-group">
+                <label for="signupName">Full Name</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="signupName" class="form-input" placeholder="Enter your full name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupUser">Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="text" id="signupUser" class="form-input" placeholder="Choose a username" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <div class="input-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="email" id="signupEmail" class="form-input" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupPass">Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="signupPass" class="form-input" placeholder="Create a password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('signupPass')"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="signupPassConfirm">Confirm Password</label>
+                <div class="password-wrapper">
+                    <span class="input-icon"></span>
+                    <input type="password" id="signupPassConfirm" class="form-input" placeholder="Confirm password" required>
+                    <span class="password-toggle" onclick="togglePasswordVisibility('signupPassConfirm')"></span>
+                </div>
+            </div>
+            <label class="checkbox-label" style="font-size:12px; margin-bottom:12px;">
+                <input type="checkbox" id="agreeSignup" required>
+                <span>I agree to the <a href="#" style="color:#6b4bb0; text-decoration:none;">Terms & Conditions</a> and <a href="#" style="color:#6b4bb0; text-decoration:none;">Privacy Policy</a></span>
+            </label>
+            <button type="submit" class="modal-btn sign-in">Create Account</button>
+        </form>
+
+        <div class="divider-row"><span>or</span></div>
+        <p class="signup-link" id="authSwitch">Don't have an account? <a href="#" onclick="showSignup(); return false;">Sign Up</a></p>
+    </div>
+</div>
+
+<script src="js/database.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

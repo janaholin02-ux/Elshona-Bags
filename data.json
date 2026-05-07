@@ -1,0 +1,35 @@
+{
+    "accounts": {
+        "admin": {
+            "name": "Administrator",
+            "email": "admin@elshonabags.com",
+            "password": "admin",
+            "createdAt": "2026-05-06T00:00:00.000Z"
+        },
+        "janaholin_00": {
+            "name": "Janah Olin",
+            "email": "janaholin02@gmail.com",
+            "password": "JanahMaganda123",
+            "createdAt": "2026-05-06T15:58:22+00:00"
+        },
+        "janamae00": {
+            "name": "Janah Olin",
+            "email": "janaholin02@gmail.com",
+            "password": "JanahMaganda123",
+            "createdAt": "2026-05-06T15:58:40+00:00"
+        },
+        "yzuness00": {
+            "name": "Yzu Ness",
+            "email": "janaholin02@gmail.com",
+            "password": "janah123",
+            "createdAt": "2026-05-06T15:59:43+00:00"
+        }
+    },
+    "carts": {
+        "admin": [],
+        "janaholin_00": [],
+        "janamae00": [],
+        "yzuness00": []
+    },
+    "orders": []
+}
