@@ -7,21 +7,8 @@ let database = {
 let databaseReady = false;
 let databaseLoadPromise = null;
 
-// Load database from localStorage first, otherwise attempt to load from data.json
+// Load database from data.json first, otherwise attempt to use localStorage cache
 function loadDatabase() {
-  const savedData = localStorage.getItem('eshonaDatabase');
-
-  if (savedData) {
-    try {
-      database = JSON.parse(savedData);
-      databaseReady = true;
-      databaseLoadPromise = Promise.resolve();
-      return;
-    } catch (e) {
-      console.error('Error loading stored database:', e);
-    }
-  }
-
   databaseLoadPromise = fetch('data.json')
     .then(response => {
       if (!response.ok) {
@@ -47,6 +34,15 @@ function loadDatabase() {
       }
     })
     .catch(() => {
+      const savedData = localStorage.getItem('eshonaDatabase');
+      if (savedData) {
+        try {
+          database = JSON.parse(savedData);
+          return;
+        } catch (e) {
+          console.error('Error loading stored database:', e);
+        }
+      }
       initializeDatabase();
     })
     .finally(() => {

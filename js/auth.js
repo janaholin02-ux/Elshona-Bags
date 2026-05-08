@@ -181,6 +181,7 @@ async function signup() {
         return;
     }
 
+    const currentCart = window.cart || [];
     const accountData = {
         name,
         email,
@@ -189,27 +190,17 @@ async function signup() {
     };
 
     try {
-        const response = await fetch('save_account.php', {
+        const response = await fetch('/api/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, ...accountData })
+            body: JSON.stringify({ username, ...accountData, cart: currentCart })
         });
 
-        const contentType = response.headers.get('content-type') || '';
-        if (!contentType.includes('application/json')) {
-            const text = await response.text();
-            console.warn('Signup response was not JSON, falling back to local save.', text);
-            saveAccount(username, accountData);
-            saveCart(username, []);
-            completeSignup(username);
-            return;
-        }
-
         const data = await response.json();
-        if (!response.ok) {
+        if (!response.ok || !data.success) {
             if (response.status === 404 || response.status >= 500) {
                 saveAccount(username, accountData);
-                saveCart(username, []);
+                saveCart(username, currentCart);
                 completeSignup(username);
                 return;
             }
@@ -217,18 +208,13 @@ async function signup() {
             return;
         }
 
-        if (!data.success) {
-            showNotification(data.message || 'Unable to create account.');
-            return;
-        }
-
         saveAccount(username, accountData);
-        saveCart(username, []);
+        saveCart(username, currentCart);
         completeSignup(username);
     } catch (error) {
         console.warn('Signup fetch failed, falling back to local save:', error);
         saveAccount(username, accountData);
-        saveCart(username, []);
+        saveCart(username, currentCart);
         completeSignup(username);
     }
 }
@@ -236,7 +222,6 @@ async function signup() {
 function completeSignup(username) {
     isLoggedIn = true;
     window.currentUser = username;
-    window.cart = [];
     localStorage.setItem('elshonaCurrentUser', username);
     updateCart();
     updateAuthButtons();
@@ -265,7 +250,7 @@ function resetPassword() {
         return;
     }
 
-    fetch('reset_password.php', {
+    fetch('/api/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: user, email, otp, password })
@@ -290,8 +275,8 @@ function sendResetOtp() {
     const email = document.getElementById('resetEmail')?.value.trim();
     const button = document.querySelector('#resetForm .otp-btn');
 
-    if (!user || !email) {
-        showNotification('Enter your username and email to send OTP.');
+    if (!email) {
+        showNotification('Enter your email to send OTP.');
         return;
     }
 
@@ -300,10 +285,13 @@ function sendResetOtp() {
         button.textContent = 'Sending...';
     }
 
-    fetch('send_otp.php', {
+    const payload = { email };
+    if (user) payload.username = user;
+
+    fetch('/api/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: user, email })
+        body: JSON.stringify(payload)
     })
     .then(res => res.json())
     .then(data => {

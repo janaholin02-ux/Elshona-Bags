@@ -7,5 +7,9 @@
   },
   "engines": {
     "node": ">=14"
+  },
+  "dependencies": {
+    "dotenv": "^16.6.1",
+    "nodemailer": "^6.9.4"
   }
 }

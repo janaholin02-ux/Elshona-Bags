@@ -83,6 +83,25 @@ document.addEventListener('DOMContentLoaded', loadCartHtml);
 // CART
 function generateId(){ return 'ci_' + Math.random().toString(36).slice(2,9); }
 
+function saveCartToServer(username, cart) {
+    if (!username || !Array.isArray(cart)) return;
+
+    fetch('/api/save-cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, cart })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) {
+            console.warn('Cart save failed:', data.message);
+        }
+    })
+    .catch(error => {
+        console.warn('Unable to save cart to server:', error);
+    });
+}
+
 function addToCart(name, price, image){
     if(!isLoggedIn){
         showNotification('Please login before adding items to cart.');
@@ -95,6 +114,7 @@ function addToCart(name, price, image){
     else { window.cart.push({id: generateId(), name, price, image, qty: 1}); }
 
     saveCart(currentUser, window.cart);
+    saveCartToServer(currentUser, window.cart);
     updateCart();
 
     const drawer = document.getElementById('cartDrawer');
@@ -125,6 +145,7 @@ function updateCart(){
 
     if(currentUser){
         saveCart(currentUser, window.cart);
+        saveCartToServer(currentUser, window.cart);
     }
 }
 

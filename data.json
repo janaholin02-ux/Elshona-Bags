@@ -1,35 +1,129 @@
 {
-    "accounts": {
-        "admin": {
-            "name": "Administrator",
-            "email": "admin@elshonabags.com",
-            "password": "admin",
-            "createdAt": "2026-05-06T00:00:00.000Z"
-        },
-        "janaholin_00": {
-            "name": "Janah Olin",
-            "email": "janaholin02@gmail.com",
-            "password": "JanahMaganda123",
-            "createdAt": "2026-05-06T15:58:22+00:00"
-        },
-        "janamae00": {
-            "name": "Janah Olin",
-            "email": "janaholin02@gmail.com",
-            "password": "JanahMaganda123",
-            "createdAt": "2026-05-06T15:58:40+00:00"
-        },
-        "yzuness00": {
-            "name": "Yzu Ness",
-            "email": "janaholin02@gmail.com",
-            "password": "janah123",
-            "createdAt": "2026-05-06T15:59:43+00:00"
-        }
+  "accounts": {
+    "admin": {
+      "name": "Administrator",
+      "email": "admin@elshonabags.com",
+      "password": "admin",
+      "createdAt": "2026-05-06T00:00:00.000Z"
     },
-    "carts": {
-        "admin": [],
-        "janaholin_00": [],
-        "janamae00": [],
-        "yzuness00": []
+    "janaholin_00": {
+      "name": "Janah Olin",
+      "email": "janaholin02@gmail.com",
+      "password": "janaholin00",
+      "createdAt": "2026-05-06T15:58:22+00:00",
+      "otp": "307134",
+      "otpExpires": 1778215055402
     },
-    "orders": []
+    "testuser": {
+      "name": "Test User",
+      "email": "test@example.com",
+      "password": "Test123",
+      "createdAt": "2026-05-08T01:34:41.954Z"
+    },
+    "jackj02": {
+      "name": "Jack Joward Del Mundo",
+      "email": "jackdelmundo88@gmail.com",
+      "password": "joward123",
+      "createdAt": "2026-05-08T01:37:19.397Z",
+      "otp": "519678",
+      "otpExpires": 1778214943970
+    },
+    "juliemay00": {
+      "name": "Julie May",
+      "email": "abeyolin@gmail.com",
+      "password": "pangitako123",
+      "createdAt": "2026-05-08T02:24:11.897Z"
+    },
+    "mayesheena": {
+      "name": "Sheena Maye Medallo",
+      "email": "msheenamaye@gmail.com",
+      "password": "sheenamaye123",
+      "createdAt": "2026-05-08T07:08:43.522Z",
+      "otp": "413979",
+      "otpExpires": 1778224817191
+    }
+  },
+  "carts": {
+    "admin": [],
+    "janaholin_00": [
+      {
+        "id": "ci_g55u7x6",
+        "name": "Drift Pouch Belt Bag",
+        "price": 650,
+        "image": "bb9.jpg",
+        "qty": 1
+      },
+      {
+        "id": "ci_yav2nru",
+        "name": "Classic Belt Bag",
+        "price": 1200,
+        "image": "bb1.jpg",
+        "qty": 1
+      },
+      {
+        "id": "ci_8gwucxk",
+        "name": "Metro Belt Bag",
+        "price": 1600,
+        "image": "bb15.jpg",
+        "qty": 1
+      },
+      {
+        "id": "ci_bkm5s7e",
+        "name": "Nomad Belt Bag",
+        "price": 2100,
+        "image": "bb20.jpg",
+        "qty": 1
+      }
+    ],
+    "testuser": [
+      {
+        "price": 500,
+        "name": "Bag 1",
+        "id": "test1",
+        "qty": 2,
+        "image": "bag1.jpg"
+      }
+    ],
+    "jackj02": [
+      {
+        "id": "ci_wmqeps2",
+        "name": "Drift Pouch Belt Bag",
+        "price": 650,
+        "image": "bb9.jpg",
+        "qty": 1
+      },
+      {
+        "id": "ci_xkurovz",
+        "name": "Core Belt Bag",
+        "price": 1200,
+        "image": "bb14.jpg",
+        "qty": 1
+      },
+      {
+        "id": "ci_zf4sa7d",
+        "name": "Classic Belt Bag",
+        "price": 1200,
+        "image": "bb1.jpg",
+        "qty": 1
+      }
+    ],
+    "juliemay00": [],
+    "mayesheena": [
+      {
+        "id": "ci_3mplu1w",
+        "name": "Classic Belt Bag",
+        "price": 1200,
+        "image": "bb1.jpg",
+        "qty": 1
+      },
+      {
+        "id": "ci_iwm3u46",
+        "name": "Arvella Belt Bag",
+        "price": 1150,
+        "image": "bb7.jpg",
+        "qty": 1
+      }
+    ]
+  },
+  "orders": []
 }
