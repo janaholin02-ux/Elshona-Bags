@@ -222,6 +222,10 @@ async function handleSendOtp(req, res) {
   }
 }
 
+function isStrongPassword(password) {
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{10,}$/.test(password);
+}
+
 function handleVerifyOtp(req, res) {
   parseJsonBody(req)
     .then(body => {
@@ -277,6 +281,9 @@ function handleResetPassword(req, res) {
       if (account.otp !== otp) {
         return sendJson(res, { success: false, message: 'Invalid OTP code.' }, 400);
       }
+      if (!isStrongPassword(password)) {
+        return sendJson(res, { success: false, message: 'Password must be at least 10 characters long and include uppercase, lowercase, a number, and a symbol.' }, 400);
+      }
 
       account.password = password;
       delete account.otp;
@@ -303,6 +310,9 @@ function handleSignup(req, res) {
 
       if (!username || !name || !email || !password) {
         return sendJson(res, { success: false, message: 'All signup fields are required.' }, 400);
+      }
+      if (!isStrongPassword(password)) {
+        return sendJson(res, { success: false, message: 'Password must be at least 10 characters long and include uppercase, lowercase, a number, and a symbol.' }, 400);
       }
 
       const database = loadDatabase();
@@ -360,6 +370,27 @@ function handleSaveCart(req, res) {
     });
 }
 
+function handleSaveOrder(req, res) {
+  parseJsonBody(req)
+    .then(body => {
+      const order = body.order;
+      if (!order || typeof order !== 'object') {
+        return sendJson(res, { success: false, message: 'Order is required.' }, 400);
+      }
+
+      const database = loadDatabase();
+      database.orders = database.orders || [];
+      database.orders.push(order);
+      saveDatabase(database);
+
+      sendJson(res, { success: true, message: 'Order saved successfully.' });
+    })
+    .catch(error => {
+      console.error('saveOrder error:', error);
+      sendJson(res, { success: false, message: 'Invalid request body.' }, 400);
+    });
+}
+
 const server = http.createServer((req, res) => {
   const requestPath = decodeURIComponent(req.url.split('?')[0]);
 
@@ -377,6 +408,10 @@ const server = http.createServer((req, res) => {
 
   if (req.method === 'POST' && requestPath === '/api/save-cart') {
     return handleSaveCart(req, res);
+  }
+
+  if (req.method === 'POST' && requestPath === '/api/save-order') {
+    return handleSaveOrder(req, res);
   }
 
   if (req.method === 'POST' && requestPath === '/api/send-otp') {

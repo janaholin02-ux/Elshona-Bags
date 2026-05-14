@@ -113,11 +113,13 @@ function clearCart(username) {
 
 // Orders functions
 function saveOrder(order) {
+  database.orders = database.orders || [];
   database.orders.push(order);
   saveDatabase();
 }
 
 function getOrders(username) {
+  database.orders = Array.isArray(database.orders) ? database.orders : [];
   return database.orders.filter(order => order.user === username);
 }
 

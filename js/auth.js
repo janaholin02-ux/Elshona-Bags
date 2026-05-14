@@ -21,10 +21,10 @@ async function loadAuthState() {
 function showNotification(message) {
     const notification = document.getElementById('notification');
     if (!notification) return;
-    notification.textContent = message;
+    notification.innerHTML = message;
     notification.classList.add('show');
     clearTimeout(notification.hideTimer);
-    notification.hideTimer = setTimeout(() => notification.classList.remove('show'), 3200);
+    notification.hideTimer = setTimeout(() => notification.classList.remove('show'), 5000); // longer for link
     notification.onclick = () => notification.classList.remove('show');
 }
 
@@ -100,16 +100,69 @@ function showSignup() {
     setAuthSwitch(`Already have an account? <a href="#" onclick="showLogin(); return false;">Sign In</a>`);
 }
 
+let resetStage = 1;
+
 function showResetPassword() {
     toggleFormSections('resetForm');
-    setAuthTitle('Reset Password', 'Enter your details to reset');
+    setAuthTitle('Reset Password', 'Enter your username and email to receive a one-time code');
     setAuthSwitch(`Remembered it? <a href="#" onclick="showLogin(); return false;">Sign In</a>`);
+    clearResetFields();
+    setResetStage(1);
+}
+
+function setResetStage(stage) {
+    resetStage = stage;
+    const otpStage = document.getElementById('resetOtpStage');
+    const passwordStage = document.getElementById('resetPasswordStage');
+    const sendButton = document.getElementById('resetSendCodeButton');
+    const verifyButton = document.getElementById('resetVerifyButton');
+    const submitButton = document.getElementById('resetSubmitButton');
+    const instructions = document.getElementById('resetInstructions');
+
+    if (otpStage) otpStage.classList.toggle('hidden', stage < 2);
+    if (passwordStage) passwordStage.classList.toggle('hidden', stage < 3);
+    if (sendButton) sendButton.disabled = stage !== 1;
+    if (verifyButton) verifyButton.disabled = stage !== 2;
+    if (submitButton) submitButton.disabled = stage !== 3;
+    if (instructions) {
+        instructions.innerText = stage === 1
+            ? 'Enter username and email, then click Send Code.'
+            : stage === 2
+                ? 'Enter the OTP from your email and click Verify Code.'
+                : 'Enter a new password and submit to complete your reset.';
+    }
+}
+
+function clearResetFields() {
+    ['resetEmail', 'resetUser', 'resetOtp', 'resetPass', 'resetPassConfirm'].forEach(id => {
+        const field = document.getElementById(id);
+        if (field) field.value = '';
+    });
+    const sendButton = document.getElementById('resetSendCodeButton');
+    const verifyButton = document.getElementById('resetVerifyButton');
+    const submitButton = document.getElementById('resetSubmitButton');
+    if (sendButton) {
+        sendButton.textContent = 'Send Code';
+        sendButton.disabled = false;
+    }
+    if (verifyButton) {
+        verifyButton.textContent = 'Verify Code';
+        verifyButton.disabled = true;
+    }
+    if (submitButton) {
+        submitButton.textContent = 'Reset Password';
+        submitButton.disabled = true;
+    }
 }
 
 function togglePasswordVisibility(fieldId) {
     const field = document.getElementById(fieldId);
     if (!field) return;
     field.type = field.type === 'password' ? 'text' : 'password';
+}
+
+function isStrongPassword(password) {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{10,}$/.test(password);
 }
 
 async function login() {
@@ -174,6 +227,10 @@ async function signup() {
     }
     if (password !== confirm) {
         showNotification('Passwords do not match.');
+        return;
+    }
+    if (!isStrongPassword(password)) {
+        showNotification('Password must be at least 10 characters long and include uppercase, lowercase, a number, and a symbol.');
         return;
     }
     if (accountExists(username)) {
@@ -241,12 +298,16 @@ function resetPassword() {
     const password = document.getElementById('resetPass')?.value.trim();
     const confirm = document.getElementById('resetPassConfirm')?.value.trim();
 
-    if (!user || !email || !otp || !password || !confirm) {
+    if (!email || !otp || !password || !confirm) {
         showNotification('Please complete the password reset form.');
         return;
     }
     if (password !== confirm) {
         showNotification('Passwords do not match.');
+        return;
+    }
+    if (!isStrongPassword(password)) {
+        showNotification('Password must be at least 10 characters long and include uppercase, lowercase, a number, and a symbol.');
         return;
     }
 
@@ -273,10 +334,10 @@ function resetPassword() {
 function sendResetOtp() {
     const user = document.getElementById('resetUser')?.value.trim();
     const email = document.getElementById('resetEmail')?.value.trim();
-    const button = document.querySelector('#resetForm .otp-btn');
+    const button = document.getElementById('resetSendCodeButton');
 
     if (!email) {
-        showNotification('Enter your email to send OTP.');
+        showNotification('Enter your email to send the code.');
         return;
     }
 
@@ -297,20 +358,65 @@ function sendResetOtp() {
     .then(data => {
         if (button) {
             button.disabled = false;
-            button.textContent = 'Send OTP';
+            button.textContent = 'Send Code';
         }
         if (data.success) {
             showNotification('OTP sent to your email. Check your inbox.');
+            setResetStage(2);
+            document.getElementById('resetOtp')?.focus();
         } else {
-            showNotification(data.message || 'Unable to send OTP.');
+            showNotification(data.message || 'Unable to send code.');
         }
     })
     .catch(() => {
         if (button) {
             button.disabled = false;
-            button.textContent = 'Send OTP';
+            button.textContent = 'Send Code';
         }
-        showNotification('Unable to send OTP. Please check your server settings.');
+        showNotification('Unable to send code. Please check your server settings.');
+    });
+}
+
+function verifyResetOtp() {
+    const email = document.getElementById('resetEmail')?.value.trim();
+    const otp = document.getElementById('resetOtp')?.value.trim();
+    const button = document.getElementById('resetVerifyButton');
+
+    if (!email || !otp) {
+        showNotification('Enter your email and OTP to verify.');
+        return;
+    }
+
+    if (button) {
+        button.disabled = true;
+        button.textContent = 'Verifying...';
+    }
+
+    fetch('/api/verify-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code: otp })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (button) {
+            button.disabled = false;
+            button.textContent = 'Verify Code';
+        }
+        if (data.success) {
+            showNotification('Code verified. Enter your new password.');
+            setResetStage(3);
+            document.getElementById('resetPass')?.focus();
+        } else {
+            showNotification(data.message || 'OTP verification failed.');
+        }
+    })
+    .catch(() => {
+        if (button) {
+            button.disabled = false;
+            button.textContent = 'Verify Code';
+        }
+        showNotification('Unable to verify OTP. Please try again.');
     });
 }
 
@@ -340,6 +446,9 @@ function logout() {
 function updateAuthButtons() {
     const logoutItem = document.getElementById('logoutItem');
     if (logoutItem) logoutItem.style.display = isLoggedIn ? 'block' : 'none';
+
+    const ordersDropdownItem = document.getElementById('ordersDropdownItem');
+    if (ordersDropdownItem) ordersDropdownItem.style.display = isLoggedIn ? 'block' : 'none';
 
     const adminItem = document.getElementById('adminItem');
     if (adminItem) {

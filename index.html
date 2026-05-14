@@ -4,28 +4,88 @@
 <meta charset="utf-8">
 <title>ELSHONA BAGS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Roboto+Slab:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
+
+
+<style>
+/* Maximum screenshot protection CSS */
+#screenshot-blocker-0, #screenshot-blocker-1, #screenshot-blocker-2, #html-screenshot-blocker {
+    position: fixed !important;
+    top: -50px !important;
+    left: -50px !important;
+    width: calc(100vw + 100px) !important;
+    height: calc(100vh + 100px) !important;
+    background: #000000 !important;
+    opacity: 1 !important;
+    z-index: 2147483647 !important;
+    pointer-events: none !important;
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -ms-transform: none !important;
+    -o-transform: none !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-drag: none !important;
+    -khtml-user-drag: none !important;
+    -moz-user-drag: none !important;
+    -o-user-drag: none !important;
+    user-drag: none !important;
+    -webkit-user-modify: none !important;
+    -moz-user-modify: none !important;
+    -ms-user-modify: none !important;
+    user-modify: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <div class="header-brand">
-        <div class="brand-logo">
-            <img src="images/logo.png" alt="ELSHONA BAGS Logo" class="logo-image">
+    <div class="header-left">
+        <div class="header-brand">
+            <div class="brand-logo">
+                <img src="images/logo.png" alt="Elshona Bags Logo" class="logo-image">
+            </div>
+            <div class="brand-text">
+                <span class="brand-title">elshona</span>
+                <span class="brand-subtitle">bags</span>
+            </div>
         </div>
-        <h1 class="brand-title">ELSHONA BAGS</h1>
+        
+        <div class="header-search">
+            <input type="text" id="search" class="search-input" placeholder="Search bags..." onkeyup="searchProducts()">
+        </div>
+        <button class="hamburger-menu" id="hamburgerMenu" onclick="toggleMobileMenu()" style="display: none;">
+            <i class="fas fa-bars"></i>
+        </button>
     </div>
     
-    <nav class="header-nav">
-        <a href="#" class="nav-link active" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Home</a>
-        <a href="#" class="nav-link" onclick="showAllProducts(); window.scrollTo({top: document.querySelector('.category-intro').offsetTop - 80, behavior:'smooth'}); return false;">Products</a>
+    <nav class="header-nav" id="headerNav">
+        <a href="#" class="nav-link active" onclick="setActiveNavLink(this); window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Home</a>
+        <a href="#" class="nav-link" onclick="setActiveNavLink(this); showAllProducts(); window.scrollTo({top: document.querySelector('.category-intro').offsetTop - 80, behavior:'smooth'}); return false;">Products</a>
         <a href="#" class="nav-link cart-link" onclick="toggleCartDrawer(); return false;">
             <span>Cart</span>
             <span id="header-cart-count" class="cart-badge">0</span>
         </a>
         <div class="account-dropdown">
-            <button class="nav-link" onclick="toggleAccountDropdown()">Account</button>
+            <button class="nav-link" onclick="toggleAccountDropdown()">Account <i class="fas fa-chevron-down" style="margin-left: 6px; font-size: 12px;"></i></button>
             <div id="accountDropdown" class="dropdown-menu" style="display: none;">
                 <a href="#" class="dropdown-item" onclick="openModal(); return false;">Login</a>
                 <a href="#" class="dropdown-item" onclick="showAdminPanel(); return false;" style="display: none;" id="adminItem">Admin Panel</a>
@@ -33,10 +93,6 @@
             </div>
         </div>
     </nav>
-    
-    <div class="header-search">
-        <input type="text" id="search" class="search-input" placeholder="Search bags..." onkeyup="searchProducts()">
-    </div>
 </header>
 
 <div id="cartContainer"></div>
@@ -70,35 +126,22 @@
     </div>
 </div>
 <section class="hero">
-    <div class="hero-grid">
-        <div class="hero-panel hero-panel-left">
-            <div class="hero-slider">
-                <div class="hero-slide active">
-                    <img src="images/bb0.jpg" alt="Model holding a bag">
-                </div>
-                <div class="hero-slide">
-                    <img src="images/bb0.1.jpg" alt="Stylish handbag display">
-                </div>
-            </div>
-        </div>
-        <div class="hero-content">
-            <div class="hero-eyebrow">TIMELESS STYLE. EVERYDAY FUNCTION.</div>
-            <h2 class="hero-title">Elevate Your Style</h2>
-            <p class="hero-text">Discover timeless and functional bags for every occasion. Curated pieces crafted for everyday elegance and travel-ready convenience.</p>
+    <div class="hero-inner">
+        <div class="hero-copy">
+            <p class="hero-eyebrow">TIMELESS STYLE. EVERYDAY FUNCTION.</p>
+            <h1 class="hero-title">Elevate Your Style</h1>
+            <p class="hero-description">Discover timeless and functional bags for every occasion. Curated pieces crafted for everyday elegance and travel-ready convenience.</p>
             <div class="hero-actions">
                 <button class="primary" onclick="showAllProducts(); window.scrollTo({top: document.querySelector('.category-intro').offsetTop - 80, behavior:'smooth'})">Shop Now</button>
                 <button class="secondary" onclick="scrollToProducts()">View Collection</button>
             </div>
         </div>
-        <div class="hero-panel hero-panel-right">
-            <div class="hero-slider hero-slider-right">
-                <div class="hero-slide active">
-                    <img src="images/bb0.jpg" alt="Elegant belt bag showcase">
-                </div>
-                <div class="hero-slide">
-                    <img src="images/bb0.1.jpg" alt="Chic leather bag arrangement">
-                </div>
+        <div class="hero-visual">
+            <div class="hero-card">
+                <img src="images/bb0.jpg" alt="Model holding a bag" class="hero-image">
             </div>
+            <div class="hero-shape hero-shape-1"></div>
+            <div class="hero-shape hero-shape-2"></div>
         </div>
     </div>
 </section>
@@ -629,6 +672,240 @@ window.onclick=function(e){
 // INIT
 displayProducts(products);
 initHeroSlider();
+
+// Disable right-click context menu across the site
+document.addEventListener('contextmenu', function(event) {
+    event.preventDefault();
+    if (typeof showNotification === 'function') {
+        showNotification('Right click is disabled on this site.');
+    }
+});
+
+
+// Manage active nav link state
+function setActiveNavLink(element) {
+    // Remove active class from all nav links
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+    // Add active class to clicked element
+    if (element) {
+        element.classList.add('active');
+    }
+    const nav = document.getElementById('headerNav');
+    if (nav && nav.classList.contains('mobile-menu-open')) {
+        nav.classList.remove('mobile-menu-open');
+    }
+}
+
+function toggleMobileMenu() {
+    const nav = document.getElementById('headerNav');
+    if (!nav) return;
+    nav.classList.toggle('mobile-menu-open');
+}
+
+// System-wide screenshot blocking - makes entire screen black
+let screenshotBlockerActive = false;
+
+function showScreenshotBlocker(duration = 2000) {
+    if (screenshotBlockerActive) return;
+    screenshotBlockerActive = true;
+
+    // Create multiple black overlays for maximum coverage
+    for (let i = 0; i < 3; i++) {
+        const blocker = document.createElement('div');
+        blocker.id = `screenshot-blocker-${i}`;
+        blocker.style.cssText = `
+            position: fixed !important;
+            top: -10px !important;
+            left: -10px !important;
+            width: calc(100vw + 20px) !important;
+            height: calc(100vh + 20px) !important;
+            background-color: #000000 !important;
+            opacity: 1 !important;
+            z-index: ${999999 + i} !important;
+            pointer-events: none !important;
+            display: block !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            -webkit-touch-callout: none !important;
+            -webkit-user-drag: none !important;
+            -khtml-user-drag: none !important;
+            -moz-user-drag: none !important;
+            -o-user-drag: none !important;
+            user-drag: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            transform: none !important;
+            -webkit-transform: none !important;
+            -moz-transform: none !important;
+            -ms-transform: none !important;
+            -o-transform: none !important;
+        `;
+        document.body.appendChild(blocker);
+    }
+
+    // Also cover html and body elements
+    const htmlBlocker = document.createElement('div');
+    htmlBlocker.id = 'html-screenshot-blocker';
+    htmlBlocker.style.cssText = `
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-color: #000000 !important;
+        opacity: 1 !important;
+        z-index: 1000000 !important;
+        pointer-events: none !important;
+        display: block !important;
+    `;
+    document.documentElement.appendChild(htmlBlocker);
+
+    // Keep screen black for the requested duration to ensure screenshot captures black screen
+    setTimeout(() => {
+        // Remove all blockers
+        for (let i = 0; i < 3; i++) {
+            const blocker = document.getElementById(`screenshot-blocker-${i}`);
+            if (blocker && blocker.parentNode) {
+                blocker.style.transition = 'opacity 0.2s ease-out';
+                blocker.style.opacity = '0';
+                setTimeout(() => {
+                    if (blocker.parentNode) blocker.parentNode.removeChild(blocker);
+                }, 200);
+            }
+        }
+
+        const htmlBlocker = document.getElementById('html-screenshot-blocker');
+        if (htmlBlocker && htmlBlocker.parentNode) {
+            htmlBlocker.style.transition = 'opacity 0.2s ease-out';
+            htmlBlocker.style.opacity = '0';
+            setTimeout(() => {
+                if (htmlBlocker.parentNode) htmlBlocker.parentNode.removeChild(htmlBlocker);
+            }, 100);
+        }
+
+        screenshotBlockerActive = false;
+    }, duration);
+}
+
+// Disable all screenshot methods including PrintScreen, Ctrl+Shift+S, and Windows+Shift+S
+document.addEventListener('keydown', function(event) {
+    // Check for PrintScreen key (all variants)
+    const isPrintScreen = event.key === 'PrintScreen' ||
+                        event.key === 'PrintScrn' ||
+                        event.key === 'PrtSc' ||
+                        event.key === 'Snapshot' ||
+                        event.code === 'PrintScreen' ||
+                        event.keyCode === 44;
+
+    // Ctrl+Shift+S (Chrome screenshot tool)
+    const isCtrlShiftS = event.ctrlKey && event.shiftKey &&
+                        (event.key === 'S' || event.key === 's' || event.code === 'KeyS');
+
+    // Windows key detection for Win+Shift+S (Windows screenshot tool)
+    const isWinKey = event.metaKey || event.getModifierState && event.getModifierState('Meta') ||
+                     event.key === 'Meta' || event.key === 'OS' || event.key === 'Win' || event.key === 'Super' ||
+                     event.keyCode === 91 || event.keyCode === 92 ||
+                     event.code === 'MetaLeft' || event.code === 'MetaRight';
+    const isWinShiftS = isWinKey && event.shiftKey &&
+                       (event.key === 'S' || event.key === 's' || event.code === 'KeyS');
+
+    // Additional screenshot methods
+    const isFnPrintScreen = event.key === 'PrintScreen' && event.location === 0;
+    const isShiftFnF11 = event.shiftKey && event.key === 'F11' && event.location === 0;
+    const isAltPrintScreen = event.altKey && (event.key === 'PrintScreen' || event.keyCode === 44);
+
+    if (isPrintScreen || isCtrlShiftS || isWinShiftS || isFnPrintScreen || isShiftFnF11 || isAltPrintScreen) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        event.returnValue = false;
+
+        // Show notification
+        if (typeof showNotification === 'function') {
+            showNotification('Screenshots are disabled on this site.');
+        }
+
+        // Show black screen blocker faster for Win+Shift+S
+        const duration = isWinShiftS ? 1200 : 2000;
+        showScreenshotBlocker(duration);
+
+        return false;
+    }
+}, true);
+
+// Additional protection: Disable Ctrl+P (Print) which could be used for screenshots
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && (event.key === 'p' || event.key === 'P')) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (typeof showNotification === 'function') {
+            showNotification('Print function is disabled.');
+        }
+        return false;
+    }
+}, true);
+
+// Prevent browser dev tools screenshot feature (F12, Ctrl+Shift+I, etc.)
+document.addEventListener('keydown', function(event) {
+    const isDevTools = event.key === 'F12' ||
+                      (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'i')) ||
+                      (event.ctrlKey && event.shiftKey && (event.key === 'J' || event.key === 'j')) ||
+                      (event.ctrlKey && (event.key === 'Shift') && (event.key === 'C' || event.key === 'c'));
+
+    if (isDevTools) {
+        event.preventDefault();
+        if (typeof showNotification === 'function') {
+            showNotification('Developer tools are disabled.');
+        }
+        return false;
+    }
+}, true);
+
+// Prevent context menu for copy (which could access image data)
+document.addEventListener('copy', function(event) {
+    // You could add specific logic here if needed
+}, true);
+
+// Additional screenshot protection - catch any remaining screenshot attempts
+document.addEventListener('keyup', function(event) {
+    // Double-check for screenshot keys on keyup as well
+    const isScreenshotKey = event.key === 'PrintScreen' ||
+                           event.key === 'PrintScrn' ||
+                           event.key === 'PrtSc' ||
+                           event.key === 'Snapshot' ||
+                           event.keyCode === 44 ||
+                           (event.ctrlKey && event.shiftKey && (event.key === 'S' || event.key === 's'));
+
+    if (isScreenshotKey && !screenshotBlockerActive) {
+        showScreenshotBlocker();
+        if (typeof showNotification === 'function') {
+            showNotification('Screenshot attempt blocked.');
+        }
+    }
+}, true);
+
+// Prevent paste operations that might contain screenshots
+document.addEventListener('paste', function(event) {
+    // Check if paste contains image data
+    const items = event.clipboardData?.items;
+    if (items) {
+        for (let i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf('image') !== -1) {
+                event.preventDefault();
+                if (typeof showNotification === 'function') {
+                    showNotification('Pasting images is not allowed.');
+                }
+                return false;
+            }
+        }
+    }
+}, true);
 </script>
 
 <script src="js/database.js"></script>
@@ -698,48 +975,68 @@ initHeroSlider();
         </form>
 
         <form id="resetForm" class="auth-form hidden" onsubmit="resetPassword(); return false;">
-            <div class="form-group">
-                <label for="resetUser">Username</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="text" id="resetUser" class="form-input" placeholder="Enter your username" required>
+            <p id="resetInstructions" class="reset-instructions">Enter your username and email, then click Send Code.</p>
+            <div class="reset-steps-container">
+                <div class="reset-step">
+                    <div class="reset-step-header"><span>Step 1</span>Verify your account</div>
+                    <div class="form-group">
+                        <label for="resetUser">Username (optional)</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="text" id="resetUser" class="form-input" placeholder="Enter your username (optional)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="resetEmail">Email</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    <div class="reset-button-group">
+                        <button type="button" class="modal-btn sign-in" id="resetSendCodeButton" onclick="sendResetOtp()">Send Code</button>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="resetEmail">Email</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
+                <div id="resetOtpStage" class="reset-step hidden">
+                    <div class="reset-step-header"><span>Step 2</span>Enter OTP</div>
+                    <div class="form-group">
+                        <label for="resetOtp">OTP Code</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="text" id="resetOtp" class="form-input" placeholder="Enter OTP code" required>
+                        </div>
+                    </div>
+                    <div class="reset-button-group">
+                        <button type="button" class="modal-btn sign-in" id="resetVerifyButton" onclick="verifyResetOtp()">Verify Code</button>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="resetOtp">OTP Code</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="text" id="resetOtp" class="form-input" placeholder="Enter OTP code" required>
-                    <button type="button" class="otp-btn" onclick="sendResetOtp()">Send OTP</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="resetPass">New Password</label>
-                <div class="password-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="password" id="resetPass" class="form-input" placeholder="Enter new password" required>
-                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPass')"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="resetPassConfirm">Confirm Password</label>
-                <div class="password-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="password" id="resetPassConfirm" class="form-input" placeholder="Confirm new password" required>
-                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPassConfirm')"></span>
+                <div id="resetPasswordStage" class="reset-step hidden">
+                    <div class="reset-step-header"><span>Step 3</span>Create new password</div>
+                    <div class="form-group">
+                        <label for="resetPass">New Password</label>
+                        <div class="password-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="password" id="resetPass" class="form-input" placeholder="Enter new password" required>
+                            <span class="password-toggle" onclick="togglePasswordVisibility('resetPass')"></span>
+                        </div>
+                        <small class="password-help">Use at least 10 characters, including uppercase, lowercase, a number, and a symbol.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="resetPassConfirm">Confirm Password</label>
+                        <div class="password-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="password" id="resetPassConfirm" class="form-input" placeholder="Confirm new password" required>
+                            <span class="password-toggle" onclick="togglePasswordVisibility('resetPassConfirm')"></span>
+                        </div>
+                    </div>
+                    <div class="reset-button-group">
+                        <button type="submit" class="modal-btn sign-in" id="resetSubmitButton" disabled>Reset Password</button>
+                    </div>
                 </div>
             </div>
             <div class="login-actions">
                 <a href="#" onclick="showLogin(); return false;">Back to Sign In</a>
             </div>
-            <button type="submit" class="modal-btn sign-in">Reset Password</button>
         </form>
 
         <form id="signupForm" class="auth-form hidden" onsubmit="signup(); return false;">
@@ -771,6 +1068,7 @@ initHeroSlider();
                     <input type="password" id="signupPass" class="form-input" placeholder="Create a password" required>
                     <span class="password-toggle" onclick="togglePasswordVisibility('signupPass')"></span>
                 </div>
+                <small class="password-help">Use at least 10 characters, including uppercase, lowercase, a number, and a symbol.</small>
             </div>
             <div class="form-group">
                 <label for="signupPassConfirm">Confirm Password</label>

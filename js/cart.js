@@ -102,6 +102,25 @@ function saveCartToServer(username, cart) {
     });
 }
 
+function saveOrderToServer(order) {
+    if (!order || typeof order !== 'object') return;
+
+    fetch('/api/save-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) {
+            console.warn('Order save failed:', data.message);
+        }
+    })
+    .catch(error => {
+        console.warn('Unable to save order to server:', error);
+    });
+}
+
 function addToCart(name, price, image){
     if(!isLoggedIn){
         showNotification('Please login before adding items to cart.');
@@ -181,7 +200,7 @@ function completeCheckout(){
     const method=document.getElementById("payment-method").value;
     const total = window.cart.reduce((sum,i)=>sum+i.price,0);
     if(window.cart.length === 0){ alert('Cart is empty'); return; }
-    alert("Payment successful via "+method+"!\nTotal: ₱"+ total);
+    showNotification(`Payment successful via ${method}! Total: ₱${total}<br><a href="completed.html" style="color: #fff; text-decoration: underline;">View your completed orders</a>`);
     // Save order to orders array
     const order = {
         id: 'order_' + Date.now(),
@@ -193,6 +212,7 @@ function completeCheckout(){
         date: new Date().toLocaleString()
     };
     saveOrder(order);
+    saveOrderToServer(order);
     // Clear cart
     window.cart = [];
     updateCart();
@@ -426,8 +446,8 @@ function changeQuantity(itemId, delta){
 }
 
 function removeCartItemById(id){
-    const idx = cart.findIndex(c=>c.id===id);
-    if(idx>=0) cart.splice(idx,1);
+    const idx = window.cart.findIndex(c=>c.id===id);
+    if(idx>=0) window.cart.splice(idx,1);
     updateCart();
     const drawer = document.getElementById('cartDrawer');
     if(drawer && drawer.classList.contains('open')) renderCartDrawer();
@@ -440,7 +460,7 @@ function checkoutSelected(){
         return;
     }
     
-    const selectedCartItems = cart.filter(item => selectedItems.has(item.id));
+    const selectedCartItems = window.cart.filter(item => selectedItems.has(item.id));
     const total = selectedCartItems.reduce((s,i)=>s + (i.price * (i.qty||1)),0);
     
     showNotification(`Payment successful via ${method}!`);

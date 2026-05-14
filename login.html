@@ -62,48 +62,68 @@
         </form>
 
         <form id="resetForm" class="auth-form hidden" onsubmit="resetPassword(); return false;">
-            <div class="form-group">
-                <label for="resetUser">Username</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="text" id="resetUser" class="form-input" placeholder="Enter your username" required>
+            <p id="resetInstructions" class="reset-instructions">Enter your username and email, then click Send Code.</p>
+            <div class="reset-steps-container">
+                <div class="reset-step">
+                    <div class="reset-step-header"><span>Step 1</span>Verify your account</div>
+                    <div class="form-group">
+                        <label for="resetUser">Username (optional)</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="text" id="resetUser" class="form-input" placeholder="Enter your username (optional)">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="resetEmail">Email</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
+                        </div>
+                    </div>
+                    <div class="reset-button-group">
+                        <button type="button" class="modal-btn sign-in" id="resetSendCodeButton" onclick="sendResetOtp()">Send Code</button>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="resetEmail">Email</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="email" id="resetEmail" class="form-input" placeholder="Enter your email" required>
+                <div id="resetOtpStage" class="reset-step hidden">
+                    <div class="reset-step-header"><span>Step 2</span>Enter OTP</div>
+                    <div class="form-group">
+                        <label for="resetOtp">OTP Code</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="text" id="resetOtp" class="form-input" placeholder="Enter OTP code" required>
+                        </div>
+                    </div>
+                    <div class="reset-button-group">
+                        <button type="button" class="modal-btn sign-in" id="resetVerifyButton" onclick="verifyResetOtp()">Verify Code</button>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="resetOtp">OTP Code</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="text" id="resetOtp" class="form-input" placeholder="Enter OTP code" required>
-                    <button type="button" class="otp-btn" onclick="sendResetOtp()">Send OTP</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="resetPass">New Password</label>
-                <div class="password-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="password" id="resetPass" class="form-input" placeholder="Enter new password" required>
-                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPass')"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="resetPassConfirm">Confirm Password</label>
-                <div class="password-wrapper">
-                    <span class="input-icon"></span>
-                    <input type="password" id="resetPassConfirm" class="form-input" placeholder="Confirm new password" required>
-                    <span class="password-toggle" onclick="togglePasswordVisibility('resetPassConfirm')"></span>
+                <div id="resetPasswordStage" class="reset-step hidden">
+                    <div class="reset-step-header"><span>Step 3</span>Create new password</div>
+                    <div class="form-group">
+                        <label for="resetPass">New Password</label>
+                        <div class="password-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="password" id="resetPass" class="form-input" placeholder="Enter new password" required>
+                            <span class="password-toggle" onclick="togglePasswordVisibility('resetPass')"></span>
+                        </div>
+                        <small class="password-help">Use at least 10 characters, including uppercase, lowercase, a number, and a symbol.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="resetPassConfirm">Confirm Password</label>
+                        <div class="password-wrapper">
+                            <span class="input-icon"></span>
+                            <input type="password" id="resetPassConfirm" class="form-input" placeholder="Confirm new password" required>
+                            <span class="password-toggle" onclick="togglePasswordVisibility('resetPassConfirm')"></span>
+                        </div>
+                    </div>
+                    <div class="reset-button-group">
+                        <button type="submit" class="modal-btn sign-in" id="resetSubmitButton" disabled>Reset Password</button>
+                    </div>
                 </div>
             </div>
             <div class="login-actions">
                 <a href="#" onclick="showLogin(); return false;">Back to Sign In</a>
             </div>
-            <button type="submit" class="modal-btn sign-in">Reset Password</button>
         </form>
 
         <form id="signupForm" class="auth-form hidden" onsubmit="signup(); return false;">
@@ -135,6 +155,7 @@
                     <input type="password" id="signupPass" class="form-input" placeholder="Create a password" required>
                     <span class="password-toggle" onclick="togglePasswordVisibility('signupPass')"></span>
                 </div>
+                <small class="password-help">Use at least 10 characters, including uppercase, lowercase, a number, and a symbol.</small>
             </div>
             <div class="form-group">
                 <label for="signupPassConfirm">Confirm Password</label>
@@ -158,5 +179,101 @@
 
 <script src="js/database.js"></script>
 <script src="js/auth.js"></script>
+
+<script>
+// Comprehensive screenshot blocking system - disables all screenshot methods
+let screenshotBlockerActive = false;
+
+function showScreenshotBlocker() {
+    if (screenshotBlockerActive) return;
+    screenshotBlockerActive = true;
+    
+    // Create black overlay that covers entire screen
+    const blocker = document.createElement('div');
+    blocker.id = 'screenshot-blocker';
+    blocker.style.cssText = `
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background-color: #000 !important;
+        opacity: 1 !important;
+        z-index: 999999 !important;
+        pointer-events: none !important;
+        display: block !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+    `;
+    document.body.appendChild(blocker);
+    
+    // Keep screen black for 1.5 seconds to ensure screenshot captures black screen
+    setTimeout(() => {
+        if (blocker.parentNode) {
+            blocker.style.transition = 'opacity 0.2s ease-out';
+            blocker.style.opacity = '0';
+            setTimeout(() => {
+                if (blocker.parentNode) blocker.parentNode.removeChild(blocker);
+                screenshotBlockerActive = false;
+            }, 300);
+        }
+    }, 1500);
+}
+
+// Disable all screenshot methods including Ctrl+Shift+S, PrintScreen, and Windows+Shift+S
+document.addEventListener('keydown', function(event) {
+    // Check for PrintScreen key (all variants)
+    const isPrintScreen = event.key === 'PrintScreen' || 
+                        event.key === 'PrintScrn' || 
+                        event.key === 'PrtSc' || 
+                        event.key === 'Snapshot' ||
+                        event.code === 'PrintScreen' || 
+                        event.keyCode === 44;
+    
+    // Ctrl+Shift+S (Chrome screenshot tool)
+    const isCtrlShiftS = event.ctrlKey && event.shiftKey && 
+                        (event.key === 'S' || event.key === 's' || event.code === 'KeyS');
+    
+    // Windows key detection for Win+Shift+S (Windows screenshot tool)
+    const isWinKey = event.metaKey || event.key === 'Meta' || event.key === 'OS' || event.key === 'Win' || event.key === 'Super';
+    const isWinShiftS = isWinKey && event.shiftKey && 
+                       (event.key === 'S' || event.key === 's' || event.code === 'KeyS');
+    
+    // Additional screenshot methods
+    const isFnPrintScreen = event.key === 'PrintScreen' && event.location === 0;
+    const isShiftFnF11 = event.shiftKey && event.key === 'F11' && event.location === 0;
+    const isAltPrintScreen = event.altKey && (event.key === 'PrintScreen' || event.keyCode === 44);
+    
+    if (isPrintScreen || isCtrlShiftS || isWinShiftS || isFnPrintScreen || isShiftFnF11 || isAltPrintScreen) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        event.returnValue = false;
+        
+        // Show notification
+        if (typeof showNotification === 'function') {
+            showNotification('Screenshots are disabled on this site.');
+        }
+        
+        // Show black screen blocker
+        showScreenshotBlocker();
+        
+        return false;
+    }
+}, true);
+
+// Additional protection: Disable Ctrl+P (Print) which could be used for screenshots
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && (event.key === 'p' || event.key === 'P')) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        if (typeof showNotification === 'function') {
+            showNotification('Print function is disabled.');
+        }
+        return false;
+    }
+}, true);
+</script>
 </body>
 </html>

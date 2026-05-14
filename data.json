@@ -9,69 +9,71 @@
     "janaholin_00": {
       "name": "Janah Olin",
       "email": "janaholin02@gmail.com",
-      "password": "janaholin00",
+      "password": "Janahmae*123",
       "createdAt": "2026-05-06T15:58:22+00:00",
-      "otp": "307134",
-      "otpExpires": 1778215055402
+      "otp": "323655",
+      "otpExpires": 1778772024752
     },
     "testuser": {
       "name": "Test User",
       "email": "test@example.com",
-      "password": "Test123",
+      "password": "Test*123",
       "createdAt": "2026-05-08T01:34:41.954Z"
     },
     "jackj02": {
       "name": "Jack Joward Del Mundo",
       "email": "jackdelmundo88@gmail.com",
-      "password": "joward123",
+      "password": "Joward*123",
       "createdAt": "2026-05-08T01:37:19.397Z",
-      "otp": "620710",
-      "otpExpires": 1778225841120
+      "otp": "694534",
+      "otpExpires": 1778238086905
     },
     "juliemay00": {
       "name": "Julie May",
       "email": "abeyolin@gmail.com",
-      "password": "pangitako123",
-      "createdAt": "2026-05-08T02:24:11.897Z"
+      "password": "Pangitako*123",
+      "createdAt": "2026-05-08T02:24:11.897Z",
+      "otp": "502884",
+      "otpExpires": 1778295561051
     },
     "mayesheena": {
       "name": "Sheena Maye Medallo",
       "email": "msheenamaye@gmail.com",
-      "password": "sheenamaye123",
+      "password": "Sheenamaye*123",
       "createdAt": "2026-05-08T07:08:43.522Z",
       "otp": "413979",
       "otpExpires": 1778224817191
+    },
+    "elizabeth00": {
+      "name": "Elizabeth Nonzol",
+      "email": "nonzolelizabeth053@gmail.com",
+      "password": "Eli*123",
+      "createdAt": "2026-05-09T06:12:45.378Z",
+      "otp": "683356",
+      "otpExpires": 1778307813129
+    },
+    "kimpaulite_00": {
+      "name": "Kim Paulite",
+      "email": "kimpaulite@gmail.com",
+      "password": "Kimpaulite*00",
+      "createdAt": "2026-05-11T13:16:01.412Z"
     }
   },
   "carts": {
     "admin": [],
     "janaholin_00": [
       {
-        "id": "ci_g55u7x6",
-        "name": "Drift Pouch Belt Bag",
-        "price": 650,
-        "image": "bb9.jpg",
-        "qty": 1
+        "id": "ci_1dlhh6r",
+        "name": "Elvara Belt Bag",
+        "price": 1000,
+        "image": "bb6.jpg",
+        "qty": 2
       },
       {
-        "id": "ci_yav2nru",
-        "name": "Classic Belt Bag",
-        "price": 1200,
-        "image": "bb1.jpg",
-        "qty": 1
-      },
-      {
-        "id": "ci_8gwucxk",
-        "name": "Metro Belt Bag",
-        "price": 1600,
-        "image": "bb15.jpg",
-        "qty": 1
-      },
-      {
-        "id": "ci_bkm5s7e",
-        "name": "Nomad Belt Bag",
-        "price": 2100,
-        "image": "bb20.jpg",
+        "id": "ci_gked0ic",
+        "name": "Globetrotter Belt Bag",
+        "price": 2000,
+        "image": "bb19.jpg",
         "qty": 1
       }
     ],
@@ -86,24 +88,24 @@
     ],
     "jackj02": [
       {
-        "id": "ci_wmqeps2",
-        "name": "Drift Pouch Belt Bag",
-        "price": 650,
-        "image": "bb9.jpg",
+        "id": "ci_2uvgjy0",
+        "name": "Leather Belt Bag",
+        "price": 2500,
+        "image": "bb4.jpg",
         "qty": 1
       },
       {
-        "id": "ci_xkurovz",
-        "name": "Core Belt Bag",
-        "price": 1200,
-        "image": "bb14.jpg",
+        "id": "ci_chgm89j",
+        "name": "Sporty Belt Bag",
+        "price": 800,
+        "image": "bb3.jpg",
         "qty": 1
       },
       {
-        "id": "ci_zf4sa7d",
-        "name": "Classic Belt Bag",
-        "price": 1200,
-        "image": "bb1.jpg",
+        "id": "ci_zvmovcv",
+        "name": "Urbanite Belt Bag",
+        "price": 1700,
+        "image": "bb16.jpg",
         "qty": 1
       }
     ],
@@ -121,6 +123,31 @@
         "name": "Arvella Belt Bag",
         "price": 1150,
         "image": "bb7.jpg",
+        "qty": 1
+      }
+    ],
+    "elizabeth00": [
+      {
+        "id": "ci_p7v53gl",
+        "name": "Core Belt Bag",
+        "price": 1200,
+        "image": "bb14.jpg",
+        "qty": 1
+      },
+      {
+        "id": "ci_wkg7o3w",
+        "name": "Drift Pouch Belt Bag",
+        "price": 650,
+        "image": "bb9.jpg",
+        "qty": 1
+      }
+    ],
+    "kimpaulite_00": [
+      {
+        "id": "ci_1wnh3hw",
+        "name": "Elvara Belt Bag",
+        "price": 1000,
+        "image": "bb6.jpg",
         "qty": 1
       }
     ]
