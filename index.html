@@ -72,6 +72,9 @@
         <div class="header-search">
             <input type="text" id="search" class="search-input" placeholder="Search bags..." onkeyup="searchProducts()">
         </div>
+        <button class="search-toggle" id="searchToggle" aria-label="Toggle search">
+            <i class="fas fa-search"></i>
+        </button>
         <button class="hamburger-menu" id="hamburgerMenu" onclick="toggleMobileMenu()" style="display: none;">
             <i class="fas fa-bars"></i>
         </button>
@@ -192,92 +195,92 @@
 // PRODUCTS
 const products = [
     {name: "Hand Bag", variants: [
-        {name:"Classic Pink", image:"mini1.jpg", price:1500},
-        {name:"Elegant Blue", image:"mini2.jpg", price:2350},
-        {name:"Luxury Cream", image:"mini3.jpg", price:1760},
-        {name:"Cherry Silver", image:"mini4.jpg", price:2450},
-        {name:"Luxury Black", image:"mini5.jpg", price:3000},
-        {name:"Beige Sling", image:"mini6.jpg", price:2900},
-        {name:"Maroon Cherry", image:"mini7.jpg", price:2357},
-        {name:"Brown Envelope", image:"mini8.jpg", price:1600},
-        {name:"Classy White", image:"mini9.jpg", price:3467},
-        {name:"Clhoe LV", image:"mini10.jpg", price:2365},
-        {name:"Floral LV", image:"mini11.jpg", price:3560},
-        {name:"Matcha Cream", image:"mini12.jpg", price:4560},
-        {name:"Mulberry", image:"mini13.jpg", price:1550},
-        {name:"Purple Ness", image:"mini14.jpg", price:1370},
-        {name:"Classy Blue", image:"mini15.jpg", price:1300},
-        {name:"Elara Luxe", image:"mini16.jpg", price:1450},
-        {name:"Celestique", image:"mini17.jpg", price:1300},
-        {name:"VantaBag", image:"mini18.jpg", price:1450},
-        {name:"Blush Berry", image:"mini19.jpg", price:1300},
-        {name:"Maroon Elan", image:"mini20.jpg", price:1450}
+        {name:"Classic Pink", image:"mini1.jpg", price:500},
+        {name:"Elegant Blue", image:"mini2.jpg", price:350},
+        {name:"Luxury Cream", image:"mini3.jpg", price:760},
+        {name:"Cherry Silver", image:"mini4.jpg", price:450},
+        {name:"Luxury Black", image:"mini5.jpg", price:300},
+        {name:"Beige Sling", image:"mini6.jpg", price:900},
+        {name:"Maroon Cherry", image:"mini7.jpg", price:357},
+        {name:"Brown Envelope", image:"mini8.jpg", price:600},
+        {name:"Classy White", image:"mini9.jpg", price:467},
+        {name:"Clhoe LV", image:"mini10.jpg", price:365},
+        {name:"Floral LV", image:"mini11.jpg", price:560},
+        {name:"Matcha Cream", image:"mini12.jpg", price:560},
+        {name:"Mulberry", image:"mini13.jpg", price:550},
+        {name:"Purple Ness", image:"mini14.jpg", price:370},
+        {name:"Classy Blue", image:"mini15.jpg", price:300},
+        {name:"Elara Luxe", image:"mini16.jpg", price:450},
+        {name:"Celestique", image:"mini17.jpg", price:300},
+        {name:"VantaBag", image:"mini18.jpg", price:450},
+        {name:"Blush Berry", image:"mini19.jpg", price:300},
+        {name:"Maroon Elan", image:"mini20.jpg", price:450}
     ]},
     {name: "Travel Backpack", variants: [
-        {name:"UrbanPack", image:"bp1.jpg", price:10200},
-        {name:"SkyHaul Backpack", image:"bp2.jpg", price:11250},
-        {name:"Drift Backpack", image:"bp3.jpg", price:11300},
-        {name:"MetroSack Backpack", image:"bp4.jpg", price:13050},
-        {name:"CoreCarry Backpack", image:"bp5.jpg", price:12300},
-        {name:"Swift Backpack", image:"bp6.jpg", price:11000},
-        {name:"PeakPack Backpack", image:"bp7.jpg", price:26000},
-        {name:"GoStride Backpack", image:"bp8.jpg", price:19500},
-        {name:"PathFinder Backpack", image:"bp10.jpg", price:13000},
-        {name:"Elevate Backpack", image:"bp11.jpg", price:16000},
-        {name:"Cargonest Backpack", image:"bp12.jpg", price:10000},
-        {name:"WonderWise Backpack", image:"bp13.jpg", price:19000},
-        {name:"TrailBlaze Backpack", image:"bp14.jpg", price:21000},
-        {name:"Urbanite Backpack", image:"bp15.jpg", price:17000},
-        {name:"Voyageur Backpack", image:"bp16.jpg", price:22000},
-        {name:"Summit Backpack", image:"bp17.jpg", price:24000},
-        {name:"Globetrotter Backpack", image:"bp18.jpg", price:20000},
-        {name:"Nomad Backpack", image:"bp19.jpg", price:15000},
-        {name:"Expedition Backpack", image:"bp20.jpg", price:30000}
+        {name:"UrbanPack", image:"bp1.jpg", price:700},
+        {name:"SkyHaul Backpack", image:"bp2.jpg", price:650},
+        {name:"Drift Backpack", image:"bp3.jpg", price:700},
+        {name:"MetroSack Backpack", image:"bp4.jpg", price:750},
+        {name:"CoreCarry Backpack", image:"bp5.jpg", price:800},
+        {name:"Swift Backpack", image:"bp6.jpg", price:500},
+        {name:"PeakPack Backpack", image:"bp7.jpg", price:600},
+        {name:"GoStride Backpack", image:"bp8.jpg", price:500},
+        {name:"PathFinder Backpack", image:"bp10.jpg", price:900},
+        {name:"Elevate Backpack", image:"bp11.jpg", price:600},
+        {name:"Cargonest Backpack", image:"bp12.jpg", price:400},
+        {name:"WonderWise Backpack", image:"bp13.jpg", price:900},
+        {name:"TrailBlaze Backpack", image:"bp14.jpg", price:600},
+        {name:"Urbanite Backpack", image:"bp15.jpg", price:700},
+        {name:"Voyageur Backpack", image:"bp16.jpg", price:750},
+        {name:"Summit Backpack", image:"bp17.jpg", price:950},
+        {name:"Globetrotter Backpack", image:"bp18.jpg", price:1000},
+        {name:"Nomad Backpack", image:"bp19.jpg", price:650},
+        {name:"Expedition Backpack", image:"bp20.jpg", price:799}
     ]},
     {name: "Tote Bag", variants: [
         {name:"ToteBall", image:"tt1.jpg", price:300},
-        {name:"Totenado", image:"tt2.jpg", price:550},
-        {name:"ToteFul", image:"tt3.jpg", price:700},
-        {name:"Totequake", image:"tt4.jpg", price:790},
-        {name:"Totebulous", image:"tt5.jpg", price:430},
-        {name:"Totemess", image:"tt6.jpg", price:660},
-        {name:"Totemania", image:"tt7.jpg", price:850},
-        {name:"Totastic", image:"tt8.jpg", price:950},
-        {name:"Dragify", image:"tt9.jpg", price:850},
-        {name:"Siksik", image:"tt10.jpg", price:950},
-        {name:"Packzilla", image:"tt11.jpg", price:850},
+        {name:"Totenado", image:"tt2.jpg", price:250},
+        {name:"ToteFul", image:"tt3.jpg", price:150},
+        {name:"Totequake", image:"tt4.jpg", price:350},
+        {name:"Totebulous", image:"tt5.jpg", price:220},
+        {name:"Totemess", image:"tt6.jpg", price:350},
+        {name:"Totemania", image:"tt7.jpg", price:260},
+        {name:"Totastic", image:"tt8.jpg", price:320},
+        {name:"Dragify", image:"tt9.jpg", price:350},
+        {name:"Siksik", image:"tt10.jpg", price:150},
+        {name:"Packzilla", image:"tt11.jpg", price:200},
         {name:"Totelle", image:"tt12.jpg", price:950},
-        {name:"Totetara", image:"tt13.jpg", price:850},
-        {name:"Totine", image:"tt14.jpg", price:950},
-        {name:"Toriele", image:"tt15.jpg", price:850},
-        {name:"Totemess", image:"tt16.jpg", price:950},
-        {name:"Toterrific", image:"tt17.jpg", price:850},
-        {name:"Totemon", image:"tt18.jpg", price:950},
-        {name:"Totebagel", image:"tt19.jpg", price:850},
-        {name:"Totester", image:"tt20.jpg", price:950}
+        {name:"Totetara", image:"tt13.jpg", price:200},
+        {name:"Totine", image:"tt14.jpg", price:190},
+        {name:"Toriele", image:"tt15.jpg", price:300},
+        {name:"Totemess", image:"tt16.jpg", price:150},
+        {name:"Toterrific", image:"tt17.jpg", price:350},
+        {name:"Totemon", image:"tt18.jpg", price:260},
+        {name:"Totebagel", image:"tt19.jpg", price:150},
+        {name:"Totester", image:"tt20.jpg", price:350}
     ]}
     ,
     {name: "Belt Bag", variants: [
-        {name:"Classic Belt Bag", image:"bb1.jpg", price:1200},
-        {name:"Urban Belt Bag", image:"bb2.jpg", price:950},
-        {name:"Sporty Belt Bag", image:"bb3.jpg", price:800},
-        {name:"Leather Belt Bag", image:"bb4.jpg", price:2500},
-        {name:"Mini Belt Pack", image:"bb5.jpg", price:700},
-        {name:"Elvara Belt Bag", image:"bb6.jpg", price:1000},
-        {name:"Arvella Belt Bag", image:"bb7.jpg", price:1150},
-        {name:"Sway Pack Belt Bag", image:"bb8.jpg", price:1650},
-        {name:"Drift Pouch Belt Bag", image:"bb9.jpg", price:650},
-        {name:"Grind Pack Belt Bag", image:"bb10.jpg", price:900},
-        {name:"Venture Belt Bag", image:"bb11.jpg", price:1300},
-        {name:"Rover Belt Bag", image:"bb12.jpg", price:1100},
-        {name:"Swift Belt Bag", image:"bb13.jpg", price:1400},
-        {name:"Core Belt Bag", image:"bb14.jpg", price:1200},
-        {name:"Metro Belt Bag", image:"bb15.jpg", price:1600},
-        {name:"Urbanite Belt Bag", image:"bb16.jpg", price:1700},
-        {name:"Voyageur Belt Bag", image:"bb17.jpg", price:1800},
-        {name:"Summit Belt Bag", image:"bb18.jpg", price:1900},
-        {name:"Globetrotter Belt Bag", image:"bb19.jpg", price:2000},
-        {name:"Nomad Belt Bag", image:"bb20.jpg", price:2100}
+        {name:"Classic Belt Bag", image:"bb1.jpg", price:200},
+        {name:"Urban Belt Bag", image:"bb2.jpg", price:150},
+        {name:"Sporty Belt Bag", image:"bb3.jpg", price:90},
+        {name:"Leather Belt Bag", image:"bb4.jpg", price:100},
+        {name:"Mini Belt Pack", image:"bb5.jpg", price:120},
+        {name:"Elvara Belt Bag", image:"bb6.jpg", price:100},
+        {name:"Arvella Belt Bag", image:"bb7.jpg", price:150},
+        {name:"Sway Pack Belt Bag", image:"bb8.jpg", price:150},
+        {name:"Drift Pouch Belt Bag", image:"bb9.jpg", price:150},
+        {name:"Grind Pack Belt Bag", image:"bb10.jpg", price:200},
+        {name:"Venture Belt Bag", image:"bb11.jpg", price:130},
+        {name:"Rover Belt Bag", image:"bb12.jpg", price:200},
+        {name:"Swift Belt Bag", image:"bb13.jpg", price:250},
+        {name:"Core Belt Bag", image:"bb14.jpg", price:100},
+        {name:"Metro Belt Bag", image:"bb15.jpg", price:100},
+        {name:"Urbanite Belt Bag", image:"bb16.jpg", price:170},
+        {name:"Voyageur Belt Bag", image:"bb17.jpg", price:180},
+        {name:"Summit Belt Bag", image:"bb18.jpg", price:190},
+        {name:"Globetrotter Belt Bag", image:"bb19.jpg", price:200},
+        {name:"Nomad Belt Bag", image:"bb20.jpg", price:210}
     ]},
     {name: "Clutch Bag", variants: [
         {name:"Silk Clutch", image:"c1.jpg", price:900},
@@ -1095,15 +1098,11 @@ document.addEventListener('paste', function(event) {
     <div class="footer-container">
         <!-- BRAND SECTION -->
         <div class="footer-brand">
-            <div class="footer-brand-logo">EB</div>
+            <div class="footer-brand-logo">
+                <img src="images/logo.png" alt="Elshona Bags Logo" class="logo-image">
+            </div>
             <div class="footer-brand-name">ELSHONA BAGS</div>
             <div class="footer-brand-tagline">Timeless bags, thoughtfully designed for every moment.</div>
-            <div class="footer-social">
-                <a href="#" title="Instagram">📷</a>
-                <a href="#" title="Facebook">f</a>
-                <a href="#" title="Pinterest">P</a>
-                <a href="#" title="Email">✉</a>
-            </div>
         </div>
 
         <!-- SHOP COLUMN -->
@@ -1120,42 +1119,14 @@ document.addEventListener('paste', function(event) {
             </ul>
         </div>
 
-        <!-- CUSTOMER CARE COLUMN -->
-        <div class="footer-col">
-            <h4>Customer Care</h4>
-            <ul>
-                <li><a href="#">Shipping & Delivery</a></li>
-                <li><a href="#">Returns & Exchanges</a></li>
-                <li><a href="#">Track Your Order</a></li>
-                <li><a href="#">FAQs</a></li>
-                <li><a href="#">Care Guide</a></li>
-                <li><a href="#">Contact Us</a></li>
-            </ul>
-        </div>
-
-     <!-- ABOUT COLUMN -->
+     <!-- ABOUT COLUMN (replaced with contact & location) -->
         <div class="footer-col">
             <h4>About</h4>
             <ul>
-                <li><a href="#">Our Story</a></li>
-                <li><a href="#">Sustainability</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Store Locator</a></li>
+                <li>Lyceum of St. Dominic Inc.</li>
+                <li>Contact: <a href="tel:09156641763">09156641763</a></li>
+                <li>Email: <a href="mailto:janaholin02@gmail.com-personalaccount">janaholin02@gmail.com-personalaccount</a></li>
             </ul>
-        </div>
-
-        <!-- STAY IN TOUCH COLUMN -->
-        <div class="footer-subscribe">
-            <h4>Stay In Touch</h4>
-            <p style="margin:0; font-size:12px; color:#7d6a45; line-height:1.4;">Subscribe to get special offers, early access to new arrivals, and more.</p>
-            <div class="footer-subscribe-input">
-                <input type="email" placeholder="Enter your email">
-                <button>→</button>
-            </div>
-            <label class="footer-subscribe-check">
-                <input type="checkbox">
-                <span>I agree to receive emails from Elshona Bags.</span>
-            </label>
         </div>
     </div>
 
@@ -1165,12 +1136,6 @@ document.addEventListener('paste', function(event) {
             © 2024 Elshona Bags. All rights reserved.
             <a href="#">Privacy Policy</a>
             <a href="#">Terms & Conditions</a>
-        </div>
-        <div class="footer-payments">
-            <span style="font-size:10px; color:#7d6a45; margin-right:6px;">VISA</span>
-            <span style="font-size:10px; color:#7d6a45;">●●</span>
-            <span style="font-size:10px; color:#7d6a45;">GCash</span>
-            <span style="font-size:10px; color:#7d6a45;">PayPal</span>
         </div>
     </div>
 </footer>
@@ -1197,6 +1162,71 @@ if (footerHome) {
         window.scrollTo({top: 0, behavior: 'smooth'});
     });
 }
+</script>
+
+<script>
+// Mobile-only search toggle: shows the search input when tapping the search icon
+(function(){
+    function ready(fn){ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn); else fn(); }
+    ready(function(){
+        var searchToggle = document.getElementById('searchToggle');
+        var hamburger = document.getElementById('hamburgerMenu');
+        var header = document.querySelector('header');
+        var searchContainer = document.querySelector('.header-search');
+        var searchInput = document.getElementById('search');
+
+        if(!searchToggle || !searchContainer) return;
+
+        // Toggle search visibility (mobile CSS hides it by default)
+        searchToggle.addEventListener('click', function(e){
+            e.preventDefault();
+            var opened = header.classList.toggle('search-open');
+            if(opened){
+                setTimeout(function(){ searchInput && searchInput.focus(); }, 50);
+            }
+        });
+
+        // Hide search when opening mobile menu
+        if(hamburger){
+            hamburger.addEventListener('click', function(){
+                header.classList.remove('search-open');
+            });
+        }
+
+        // Close search when tapping outside on mobile
+        document.addEventListener('click', function(e){
+            if(window.innerWidth > 480) return;
+            if(!header.classList.contains('search-open')) return;
+            if(searchContainer.contains(e.target) || searchToggle.contains(e.target)) return;
+            header.classList.remove('search-open');
+        }, true);
+    });
+})();
+</script>
+
+<script>
+(function(){
+    function ready(fn){ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',fn); else fn(); }
+    ready(function(){
+        var heroImage = document.querySelector('.hero-image');
+        if(!heroImage) return;
+        var slides = [
+            'images/bb0.jpg',
+            'images/bb0.1.jpg',
+            'images/bb0.jpg',
+            'images/bb0.1.jpg'
+        ];
+        var current = 0;
+        setInterval(function(){
+            current = (current + 1) % slides.length;
+            heroImage.style.opacity = 0;
+            setTimeout(function(){
+                heroImage.src = slides[current];
+                heroImage.style.opacity = 1;
+            }, 300);
+        }, 5000);
+    });
+})();
 </script>
 
 </body>

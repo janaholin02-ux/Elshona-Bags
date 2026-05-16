@@ -11,8 +11,8 @@
       "email": "janaholin02@gmail.com",
       "password": "Janahmae*123",
       "createdAt": "2026-05-06T15:58:22+00:00",
-      "otp": "323655",
-      "otpExpires": 1778772024752
+      "otp": "941287",
+      "otpExpires": 1778893990324
     },
     "testuser": {
       "name": "Test User",
@@ -62,13 +62,6 @@
   "carts": {
     "admin": [],
     "janaholin_00": [
-      {
-        "id": "ci_1dlhh6r",
-        "name": "Elvara Belt Bag",
-        "price": 1000,
-        "image": "bb6.jpg",
-        "qty": 2
-      },
       {
         "id": "ci_gked0ic",
         "name": "Globetrotter Belt Bag",
